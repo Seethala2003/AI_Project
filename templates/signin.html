@@ -89,17 +89,28 @@
                     contentType: false,
                     data: data,
                     success: function(response) {
-                        var data = JSON.parse(response);
-                        if (data['status'] == true){
-                            $('#login_message').text("Welcome " + data['username'] +", Login Successfully.");
-                            setTimeout(function() {
-                                window.location = "/home";
-                            }, 3000);
-                        } else{
-                            $(".error_message").text("Incorrect Email and Password.");
+                        console.log("Response received:", response);
+
+                        try {
+                            var data = response; // already parsed when using jsonify
+                            console.log("Parsed JSON:", data);
+
+                            if (data['status'] == true){
+                                $('#login_message').text("Welcome " + data['username'] +", Login Successfully.");
+                                console.log("Redirecting to /home...");
+                                setTimeout(function() {
+                                    window.location.href = "/home";
+                                }, 3000);
+                            } else {
+                                $(".error_message").text("Incorrect Email and Password.");
+                                $(".error_message").show(0).delay(3000).hide(0);
+                            }
+                        } catch (err) {
+                            console.error("Error parsing response:", err);
+                            $(".error_message").text("An error occurred. Check console.");
                             $(".error_message").show(0).delay(3000).hide(0);
                         }
-                    } 
+                    }
                 });
             }
         }

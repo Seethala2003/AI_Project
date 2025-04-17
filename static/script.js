@@ -86,7 +86,14 @@ function waitAndResponce(inputText) {
             }, 2000);
             break;
         
+        case "resume":
+            sendTextMessage(resumeString);
+            break;
         
+        case "irsensor":
+            sendTextMessage("<span class='sk'>An IR (Infrared) sensor emits and detects infrared radiation to sense objects or measure distances. It's commonly used in obstacle-avoiding robots and motion detectors. IR sensors come in active (with emitter and receiver) and passive types, and are favored for their low cost and simplicity in electronics projects.</span>");
+            break;
+    
 
         case "help":
             sendTextMessage("<span class='sk'>Send Keyword to get what you want to know about me...<br>e.g<br><span class='bold'>'skills'</span> - to know my skills<br><span class='bold'>'irsensor'</span> - to get my resume<br><span class='bold'>'education'</span> - to get my education details<br><span class='bold'>'contact'</span> - to get ways to connect with me<br><span class='bold'>'projects'</span> - to get details of my projects<br><span class='bold'>'clear'</span> - to clear conversation<br>");

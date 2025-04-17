@@ -1,17 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import pyttsx3
+import threading
 import json
 import db
 from demoAI import greet, speak, takeCommand, working
+from flask import jsonify
 
 # Assuming the following modules exist:
-import task_manager
-import food_recommender
-import outfit_recommender
-import motivation_engine
+from modules import task_module as task_manager
+from modules import food_module as food_recommender
+from modules import outfit_module as outfit_recommender
+from modules import motivation_module as motivation_engine
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Replace with a secure key in production
+
+def speak_safe(text):
+    threading.Thread(target=speak, args=(text,)).start()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -30,10 +36,10 @@ def signin():
     status, username = db.check_user()
     if status:
         session['username'] = username  # store user in session
-    return json.dumps({
-        "username": username,
-        "status": status
-    })
+    return jsonify({
+    "username": username,
+    "status": status
+})
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -46,8 +52,9 @@ def demoFun():
         return redirect(url_for('home'))
 
     user = session['username']
-    speak(greet(user))
+    speak_safe(greet(user))  # <-- changed
     return render_template('demoFlask.html', userName=user)
+
 
 @app.route('/home', methods=['POST'])
 def newdemoFun():
@@ -61,12 +68,12 @@ def newdemoFun():
     if user_input == "none":
         response_text = "Sorry, please say that again."
     else:
-        speak("Searching. Please wait.")
+        speak_safe("Searching. Please wait.")  # <-- changed
         response_text = working(user_input)
-    
-    speak(response_text)
+
+    speak_safe(response_text)  # <-- changed
     print("output--------------", response_text)
-    return render_template('demoFlask.html', comp=response_text, user=user.title())
+    return render_template('demoFlask.html', comp=response_text, user=user.title(), user_input=user_input)
 
 @app.route('/command', methods=['POST'])
 def commandPage():
