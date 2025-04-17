@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .weather-section {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .outfit-card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .outfit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .outfit-img {
+            height: 300px;
+            object-fit: cover;
+        }
+        .occasion-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .outfit-category {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">AI Lifestyle Assistant</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/food_recommendation">Food</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/outfit_recommendation">Outfit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/task_management">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Outfit Recommendations</h2>
+        <p class="lead">Personalized outfit suggestions based on weather and occasion</p>
+
+        <div class="weather-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Current Weather</h4>
+                    <div class="d-flex align-items-center">
+                        <img src="/api/placeholder/100/100" alt="Weather Icon" class="me-3">
+                        <div>
+                            <h2>{{ weather.temperature }}°C</h2>
+                            <p>{{ weather.condition }}</p>
+                            <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+                            <p><strong>Wind:</strong> {{ weather.wind_speed }} km/h</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Outfit Preferences</h4>
+                    <form id="outfit-preferences-form">
+                        <div class="mb-3">
+                            <label for="occasion" class="form-label">Occasion</label>
+                            <select class="form-select" id="occasion">
+                                <option value="casual">Casual</option>
+                                <option value="formal">Formal</option>
+                                <option value="business">Business</option>
+                                <option value="sporty">Sporty</option>
+                                <option value="party">Party</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="style-preference" class="form-label">Style Preference</label>
+                            <select class="form-select" id="style-preference">
+                                <option value="classic">Classic</option>
+                                <option value="trendy">Trendy</option>
+                                <option value="minimalist">Minimalist</option>
+                                <option value="bohemian">Bohemian</option>
+                                <option value="streetwear">Streetwear</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Preferences</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h4>Recommended Outfits for Today</h4>
+        <div class="outfit-category">
+            <h5>For {{ occasion }} Occasions</h5>
+            <div class="row" id="outfit-container">
+                {% for outfit in outfits %}
+                {% if outfit.occasion == occasion %}
+                <div class="col-md-4">
+                    <div class="card outfit-card">
+                        <span class="badge bg-primary occasion-badge">{{ outfit.occasion }}</span>
+                        <img src="/api/placeholder/400/500" class="card-img-top outfit-img" alt="{{ outfit.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ outfit.name }}</h5>
+                            <p class="card-text">{{ outfit.description }}</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="badge bg-info">{{ outfit.style }}</span>
+                                <span class="badge bg-success">{{ outfit.weather_type }}</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#outfitModal{{ loop.index }}">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="outfit-category mt-4">
+            <h5>Alternative Options</h5>
+            <div class="row">
+                {% for outfit in outfits %}
+                {% if outfit.occasion != occasion %}
+                <div class="col-md-4">
+                    <div class="card outfit-card">
+                        <span class="badge bg-secondary occasion-badge">{{ outfit.occasion }}</span>
+                        <img src="/api/placeholder/400/500" class="card-img-top outfit-img" alt="{{ outfit.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ outfit.name }}</h5>
+                            <p class="card-text">{{ outfit.description }}</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="badge bg-info">{{ outfit.style }}</span>
+                                <span class="badge bg-success">{{ outfit.weather_type }}</span>
+                            </div>
+                            <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#outfitModal{{ loop.index }}">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Outfit Modal -->
+    {% for outfit in outfits %}
+    <div class="modal fade" id="outfitModal{{ loop.index }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ outfit.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="/api/placeholder/400/600" class="img-fluid rounded" alt="{{ outfit.name }}">
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Outfit Details:</h6>
+                            <p>{{ outfit.description }}</p>
+                            
+                            <h6>Includes:</h6>
+                            <ul>
+                                {% for item in outfit.items %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                            
+                            <h6>Perfect for:</h6>
+                            <p>Temperature range: {{ outfit.temp_range }}</p>
+                            <p>Weather conditions: {{ outfit.weather_type }}</p>
+                            <p>Occasion: {{ outfit.occasion }}</p>
+                            <p>Style: {{ outfit.style }}</p>
+                            
+                            <h6>Styling Tips:</h6>
+                            <p>{{ outfit.styling_tips }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save to Favorites</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update outfit preferences
+        document.getElementById('outfit-preferences-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const occasion = document.getElementById('occasion').value;
+            const stylePreference = document.getElementById('style-preference').value;
+            
+            fetch('/update_outfit_preferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'occasion=' + encodeURIComponent(occasion) + '&style=' + encodeURIComponent(stylePreference)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Refresh the page to show new outfit recommendations
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
