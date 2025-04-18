@@ -5,86 +5,542 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up</title>
+    <title>Luna - Sign Up</title>
+    <link rel="icon" href="/static/GPN-LogoNew.png">
 
-    <!-- Font Icon -->
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename= 'fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/login.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #4361ee;
+            --accent: #4cc9f0;
+            --dark: #242442;
+            --light: #f8f9fa;
+            --success: #4ade80;
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            background: linear-gradient(45deg, #191932, #2c2c52);
+        }
+
+        .galaxy {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, white, transparent);
+            animation: shoot linear infinite;
+            transform-origin: left;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(-100px) translateY(0) rotate(0deg); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translateX(200px) translateY(100px) rotate(20deg); opacity: 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .signup-content {
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background-color: rgba(36, 36, 66, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .signup-form {
+            width: 55%;
+            padding: 40px;
+        }
+
+        .signup-image {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(58, 134, 255, 0.1) 100%);
+            padding: 30px;
+            position: relative;
+        }
+
+        .signup-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(76, 201, 240, 0.2) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .signup-image img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .signup-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .form-title {
+            font-size: 28px;
+            background: linear-gradient(90deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-submit {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(76, 201, 240, 0.4);
+        }
+
+        .form-submit:active {
+            transform: translateY(2px);
+        }
+
+        #error_message {
+            color: var(--danger);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            background-color: rgba(248, 113, 113, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--danger);
+        }
+
+        #signup_message {
+            color: var(--success);
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+            background-color: rgba(74, 222, 128, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--success);
+        }
+
+        .signup-image-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .signup-image-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .signup-image-link:hover::after {
+            width: 100%;
+        }
+
+        .signup-image-link:hover {
+            color: var(--light);
+        }
+
+        /* Logo styling */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .luna-logo {
+            height: 80px;
+            filter: drop-shadow(0 0 10px rgba(76, 201, 240, 0.5));
+        }
+
+        /* Glowing orb animation */
+        .orbs-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(10px, 10px); }
+            50% { transform: translate(20px, 0); }
+            75% { transform: translate(10px, -10px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signup-content {
+                flex-direction: column-reverse;
+            }
+
+            .signup-form {
+                width: 100%;
+                padding: 30px;
+            }
+
+            .signup-image {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Galaxy Background -->
+    <div class="galaxy" id="galaxy"></div>
 
-    <div class="main">
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <svg class="luna-logo" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer glow effect -->
+                <circle cx="90" cy="75" r="55" fill="none" stroke="#4cc9f0" stroke-width="2" opacity="0.2" />
+
+                <!-- Main circle with gradient -->
+                <circle cx="90" cy="75" r="50" fill="#242442" stroke="#4cc9f0" stroke-width="3" />
+
+                <!-- Luna crescent moon shape with refined curves -->
+                <path
+                    d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z"
+                    fill="#4cc9f0" />
+
+                <!-- Refined sparkles - small glowing dots with rays -->
+                <!-- Sparkle 1 -->
+                <circle cx="150" cy="40" r="1" fill="#ffffff" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" />
+                </circle>
+                <line x1="148" y1="40" x2="152" y2="40" stroke="#ffffff" stroke-width="0.5" opacity="0.7" />
+                <line x1="150" y1="38" x2="150" y2="42" stroke="#ffffff" stroke-width="0.5" opacity="0.7" />
+
+                <!-- Sparkle 2 -->
+                <circle cx="160" cy="50" r="0.8" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" />
+                </circle>
+                <line x1="159" y1="50" x2="161" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+                <line x1="160" y1="49" x2="160" y2="51" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+
+                <!-- Sparkle 3 -->
+                <circle cx="145" cy="60" r="1.2" fill="#ffffff" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite" />
+                </circle>
+                <line x1="143" y1="60" x2="147" y2="60" stroke="#ffffff" stroke-width="0.5" opacity="0.5" />
+                <line x1="145" y1="58" x2="145" y2="62" stroke="#ffffff" stroke-width="0.5" opacity="0.5" />
+
+                <!-- Additional sparkles with subtle rays -->
+                <circle cx="130" cy="45" r="0.7" fill="#ffffff" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.7;0.2" dur="5s" repeatCount="indefinite" />
+                </circle>
+                <line x1="129" y1="45" x2="131" y2="45" stroke="#ffffff" stroke-width="0.3" opacity="0.4" />
+                <line x1="130" y1="44" x2="130" y2="46" stroke="#ffffff" stroke-width="0.3" opacity="0.4" />
+
+                <circle cx="165" cy="70" r="0.9" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4.2s" repeatCount="indefinite" />
+                </circle>
+                <line x1="164" y1="70" x2="166" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+                <line x1="165" y1="69" x2="165" y2="71" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+
+                <!-- Sound wave lines with animated pulse effect -->
+                <path d="M150 75h30" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+                </path>
+                <path d="M145 55h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite" />
+                </path>
+                <path d="M145 95h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.6s" repeatCount="indefinite" />
+                </path>
+
+                <!-- Dots at the ends with pulse effect -->
+                <circle cx="190" cy="55" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="190" cy="95" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite" />
+                </circle>
+
+                <!-- Text "LUNA" with enhanced style -->
+                <text x="220" y="85" font-family="Poppins, sans-serif" font-size="50" font-weight="700" fill="#ffffff">
+                    LUN<tspan fill="#4cc9f0">A</tspan>
+                </text>
+
+                <!-- Text "AI ASSISTANT" with subtle gradient -->
+                <text x="220" y="115" font-family="Poppins, sans-serif" font-size="20" font-weight="400" fill="#4cc9f0">
+                    AI ASSISTANT
+                </text>
+            </svg>
+        </div>
+
         <!-- Sign up form -->
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <div style="margin-bottom:10px">
-                            <label class="label-agree-term" id="error_message" style="color: red;display: none;"></label>
-                        </div>
-                        <form method="POST" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name" />
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email" />
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password" />
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="repass" id="repass" placeholder="Repeat your password" />
-                            </div>
-                            <div class="form-group">
-                                <label for="agree-term" class="label-agree-term">
-                                    <a href="/" class="signup-image-link">I am already member</a>
-                                </label>
-                            </div>
-                            <div class="form-button">
-                                <input type="button" name="signup" id="signup" class="form-submit" onclick="register();" value="Register" />
-                            </div>
-                            <div style="margin-top:5px;">
-                                <label class="label-agree-term" id="signup_message" style="color: green;display: none;">Registeration Successfully</label>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="{{ url_for('static', filename= 'images/signup-image.jpg') }}"
-                                alt="sing up image"></figure>
-                    </div>
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Join Luna</h2>
+                <div>
+                    <label id="error_message"></label>
                 </div>
+                <form method="POST" class="register-form" id="register-form">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="name" id="name" placeholder="Your Name" />
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" id="email" placeholder="Your Email" />
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="pass" id="pass" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="repass" id="repass" placeholder="Confirm Password" />
+                    </div>
+                    <div class="form-group">
+                        <label class="signup-image-link">
+                            <a href="/" class="signup-image-link">I'm already a member</a>
+                        </label>
+                    </div>
+                    <div class="form-button">
+                        <input type="button" name="signup" id="signup" class="form-submit" onclick="register();" value="Create Account" />
+                    </div>
+                    <div>
+                        <label id="signup_message">Registration Successful</label>
+                    </div>
+                </form>
             </div>
-        </section>
+            <div class="signup-image">
+                <!-- Glowing orbs background effect -->
+                <div class="orbs-container">
+                    <div class="orb" style="width: 150px; height: 150px; background: rgba(76, 201, 240, 0.3); top: 20%; left: 10%; animation-duration: 15s;"></div>
+                    <div class="orb" style="width: 100px; height: 100px; background: rgba(58, 134, 255, 0.3); bottom: 20%; right: 10%; animation-duration: 12s;"></div>
+                </div>
+                <img src="{{ url_for('static', filename= 'images/signup-image.jpg') }}" alt="sign up image">
+            </div>
+        </div>
     </div>
 
     <!-- JS -->
     <script src="{{ url_for('static', filename= 'vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+    
+    <script>
+        // Create galaxy background
+        document.addEventListener('DOMContentLoaded', function() {
+            const galaxy = document.getElementById('galaxy');
+            
+            // Add stars
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1-3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Random position
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                star.style.animationDuration = duration + 's';
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                star.style.animationDelay = delay + 's';
+                
+                galaxy.appendChild(star);
+            }
+            
+            // Add shooting stars
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                
+                // Random width between 50-150px
+                const width = Math.random() * 100 + 50;
+                shootingStar.style.width = width + 'px';
+                
+                // Random position
+                shootingStar.style.left = Math.random() * 100 + 'vw';
+                shootingStar.style.top = Math.random() * 50 + 'vh';
+                
+                // Random animation duration
+                const duration = Math.random() * 4 + 4;
+                shootingStar.style.animationDuration = duration + 's';
+                
+                // Random delay
+                const delay = Math.random() * 10;
+                shootingStar.style.animationDelay = delay + 's';
+                
+                galaxy.appendChild(shootingStar);
+            }
+        });
 
-    <script type="text/javascript">
-
-        function register(){
-
-            if (($("#name").val() == '') || ($("#email").val() == "")||
-                ($("#pass").val() == '') || ($("#repass").val() == "")){
+        function register() {
+            if (($("#name").val() == '') || ($("#email").val() == "") ||
+                ($("#pass").val() == '') || ($("#repass").val() == "")) {
 
                 $("#error_message").text("All fields are required");
                 $("#error_message").show(0).delay(3000).hide(0);
-            } 
-            else if ($("#pass").val() != $("#repass").val()){
-                $("#error_message").text("Passwords are not same");
+            }
+            else if ($("#pass").val() != $("#repass").val()) {
+                $("#error_message").text("Passwords do not match");
                 $("#error_message").show(0).delay(3000).hide(0);
             }
-
             else {
                 var data = new FormData();
                 data.append('name', $("#name").val());
@@ -102,22 +558,21 @@
                     data: data,
                     success: function(response) {
                         var data = JSON.parse(response);
-                        if (data == true){
+                        if (data == true) {
                             $('#signup_message').show(0).delay(3000).hide(0);
 
                             setTimeout(function() {
                                 window.location = "/";
                             }, 3000);
 
-                        } else{                           
-                            $("#error_message").text("Email Id was already exists.");
+                        } else {
+                            $("#error_message").text("Email address already exists.");
                             $("#error_message").show(0).delay(3000).hide(0);
                         }
                     }
                 });
             }
         }
-
     </script>
 </body>
 

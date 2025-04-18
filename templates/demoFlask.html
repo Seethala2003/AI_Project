@@ -2,437 +2,478 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="icon" href="/static/GPN-LogoNew.png">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <!--Bootstrap-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--Font-Awsome-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Google Icons-->
-    <title>Voice Assistant - Home</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <title>Luna - Voice Assistant</title>
+    
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #4361ee;
+            --accent: #4cc9f0;
+            --dark: #242442;
+            --light: #f8f9fa;
+            --success: #4ade80;
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            background-color: rgba(36, 36, 66, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+        
+        .nav-btn {
+            background-color: transparent;
+            color: var(--light);
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 8px 20px;
+            margin: 0 5px;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
+        }
+        
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        #myVideo {
+            position: absolute;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
+        }
+        
+        .content-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px; /* Reduced from 100px */
+            min-height: calc(100vh - 80px);
+        }
+        
+        .typing-container {
+            text-align: center;
+            margin-bottom: 30px; /* Reduced from 40px */
+        }
+        
+        .typing-container p {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .typed-text {
+            color: var(--accent);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: var(--accent);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .action-area {
+            text-align: center;
+            width: 100%;
+            max-width: 700px;
+            background-color: rgba(36, 36, 66, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex; /* Added for centering button */
+            flex-direction: column; /* Added for centering button */
+            align-items: center; /* Added for centering button */
+        }
+        
+        .talk-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .talk-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        .talk-btn:active {
+            transform: translateY(2px);
+        }
+        
+        .mic-icon {
+            font-size: 20px;
+        }
+        
+        .result-container {
+            margin-top: 20px; /* Reduced from 40px */
+            width: 100%;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px; /* Reduced from 30px */
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+        
+        .result-header::before, .result-header::after {
+            content: "";
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            width: 100%;
+            left: 0;
+        }
+        
+        .result-header::before {
+            top: -10px;
+        }
+        
+        .result-header::after {
+            bottom: -10px;
+        }
+        
+        .command-display {
+            background-color: rgba(36, 36, 66, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .result-display {
+            background-color: rgba(36, 36, 66, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .label {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .value {
+            font-size: 18px;
+            word-break: break-word;
+        }
+        
+        .user-input {
+            color: var(--light);
+            font-weight: 500;
+            margin-top: 15px;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(76, 201, 240, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 201, 240, 0);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 60px 20px 40px; /* Reduced from 80px */
+            }
+            
+            .action-area {
+                padding: 20px;
+            }
+            
+            .typing-container p {
+                font-size: 20px;
+            }
+            
+            .talk-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .talk-btn {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+            
+            .value {
+                font-size: 16px;
+            }
+        }
+        
+        /* Navbar logo sizing */
+        .navbar-brand svg {
+            height: 70px;
+            width: auto;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+}
+    </style>
 </head>
-<style>
-    .btn {
-        transition: all ease-in-out 0.5s;
-    }
 
-    @import url('https://fonts.googleapis.com/css?family=Montserrat');
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <!-- SVG Logo -->
+                <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Outer glow effect -->
+                  <circle cx="90" cy="75" r="55" fill="none" stroke="#4cc9f0" stroke-width="2" opacity="0.2"/>
+                  
+                  <!-- Main circle with gradient -->
+                  <circle cx="90" cy="75" r="50" fill="#242442" stroke="#4cc9f0" stroke-width="3"/>
+                  
+                  <!-- Luna crescent moon shape with refined curves -->
+                  <path d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z" fill="#4cc9f0"/>
+                  
+                  <!-- Refined sparkles - small glowing dots with rays -->
+                  <!-- Sparkle 1 -->
+                  <circle cx="150" cy="40" r="1" fill="#ffffff" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="148" y1="40" x2="152" y2="40" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+                  <line x1="150" y1="38" x2="150" y2="42" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+                  
+                  <!-- Sparkle 2 -->
+                  <circle cx="160" cy="50" r="0.8" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="159" y1="50" x2="161" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  <line x1="160" y1="49" x2="160" y2="51" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  
+                  <!-- Sparkle 3 -->
+                  <circle cx="145" cy="60" r="1.2" fill="#ffffff" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="143" y1="60" x2="147" y2="60" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+                  <line x1="145" y1="58" x2="145" y2="62" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+                  
+                  <!-- Additional sparkles with subtle rays -->
+                  <circle cx="130" cy="45" r="0.7" fill="#ffffff" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.7;0.2" dur="5s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="129" y1="45" x2="131" y2="45" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+                  <line x1="130" y1="44" x2="130" y2="46" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+                  
+                  <circle cx="165" cy="70" r="0.9" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="164" y1="70" x2="166" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  <line x1="165" y1="69" x2="165" y2="71" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  
+                  <!-- Sound wave lines with animated pulse effect -->
+                  <path d="M150 75h30" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M145 55h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M145 95h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.6s" repeatCount="indefinite"/>
+                  </path>
+                  
+                  <!-- Dots at the ends with pulse effect -->
+                  <circle cx="190" cy="55" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="190" cy="95" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/>
+                  </circle>
+                  
+                  <!-- Text "LUNA" with enhanced style -->
+                  <text x="220" y="85" font-family="Poppins, sans-serif" font-size="50" font-weight="700" fill="#ffffff">
+                    LUN<tspan fill="#4cc9f0">A</tspan>
+                  </text>
+                  
+                  <!-- Text "AI ASSISTANT" with subtle gradient -->
+                  <text x="220" y="115" font-family="Poppins, sans-serif" font-size="20" font-weight="400" fill="#4cc9f0">
+                    AI ASSISTANT
+                  </text>
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <button class="nav-btn">Home</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/chat">
+                            <button class="nav-btn">Chat</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/aboutus">
+                            <button class="nav-btn">About Us</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    /* * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    } */
+    <!-- Video Background -->
+    <div class="video-container">
+        <video id="myVideo" poster="{{ url_for('static', filename='poster.JPG') }}" autoplay muted loop>
+            <source src="{{ url_for('static', filename='video2.mp4') }}" type="video/mp4">
+        </video>
+    </div>
 
-    body {
-        font-family: 'Montserrat', sans-serif;
-        background-color:rgb(46, 10, 91);
-        color: #126e82;
-    }
+    <!-- Main Content -->
+    <div class="content-container">
+        <!-- Typing Effect -->
+        <div class="typing-container">
+            <p>
+                <span class="typed-text"></span><span class="cursor">&nbsp;</span>
+            </p>
+        </div>
 
-    .containerText {
-        font-family: 'Montserrat', sans-serif;
-        height: 100;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .containerText p {
-        font-size: 40;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        text-align: center;
-        overflow: hidden;
-    }
-
-    .containerText p span.typed-text {
-        font-weight: bold;
-        font-size: large;
-        color: #e84545;
-    }
-
-    .containerText p span.cursor {
-        display: inline-block;
-        background-color: #ccc;
-        margin-left: 0.1rem;
-        width: 3px;
-        animation: blink 1s infinite;
-    }
-
-    .containerText p span.cursor.typing {
-        animation: none;
-    }
-
-    @keyframes blink {
-        0% {
-            background-color: #ccc;
-        }
-
-        49% {
-            background-color: #ccc;
-        }
-
-        50% {
-            background-color: transparent;
-        }
-
-        99% {
-            background-color: transparent;
-        }
-
-        100% {
-            background-color: #ccc;
-        }
-    }
-
-    /*FOOTER*/
-
-    footer {
-        background: #16222A;
-        background: -webkit-linear-gradient(59deg, #3A6073, #16222A);
-        background: linear-gradient(59deg, #3A6073, #16222A);
-        color: white;
-        margin-top: 70px;
-        font-size: 40;
-        /* padding-top: 0.3rem; */
-        padding-bottom: 0.5;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        text-align: center;
-        overflow: hidden;
-    }
-
-
-
-    footer a {
-        color: #fff;
-        font-size: 14px;
-        transition-duration: 0.2s;
-    }
-
-    footer a:hover {
-        color: #FA944B;
-        text-decoration: none;
-    }
-
-    .copy {
-        font-size: 12px;
-        padding: auto;
-        padding-left: auto;
-        position: absolute;
-        bottom: 0;
-        border-top: 1px solid #FFFFFF;
-    }
-
-    .footer-middle {
-        padding-top: 2em;
-        color: white;
-    }
-
-
-    /*SOCİAL İCONS*/
-
-    /* footer social icons */
-
-    ul.social-network {
-        list-style: none;
-        display: inline;
-        margin-left: 0 !important;
-        padding: 0;
-    }
-
-    ul.social-network li {
-        display: inline;
-        margin: 0 5px;
-    }
-
-
-    /* footer social icons */
-
-    .social-network a.icoFacebook:hover {
-        background-color: #3B5998;
-    }
-
-    .social-network a.icoLinkedin:hover {
-        background-color: #007bb7;
-    }
-
-    .social-network a.icoInstagram:hover {
-        background: #f09433;
-        background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f09433', endColorstr='#bc1888', GradientType=1);
-
-    }
-
-    .social-network a.icoGitHub:hover {
-        background-color: #333;
-    }
-
-    .social-network a.icoFacebook:hover i,
-    .social-network a.icoLinkedin:hover i,
-    .social-network a.icoInstagram:hover i,
-    .social-network a.icoGitHub:hover i {
-        color: #fff;
-    }
-
-    .social-network a.socialIcon:hover,
-    .socialHoverClass {
-        color: #44BCDD;
-    }
-
-    .social-circle li a {
-        display: inline-block;
-        position: relative;
-        margin: 0 auto 0 auto;
-        -moz-border-radius: 50%;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        text-align: center;
-        width: 30px;
-        height: 30px;
-        font-size: 15px;
-    }
-
-    .social-circle li i {
-        margin: 0;
-        line-height: 30px;
-        text-align: center;
-    }
-
-    .social-circle li a:hover i,
-    .triggeredHover {
-        -moz-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        -ms--transform: rotate(360deg);
-        transform: rotate(360deg);
-        -webkit-transition: all 0.2s;
-        -moz-transition: all 0.2s;
-        -o-transition: all 0.2s;
-        -ms-transition: all 0.2s;
-        transition: all 0.2s;
-    }
-
-    .social-circle i {
-        color: #595959;
-        -webkit-transition: all 0.8s;
-        -moz-transition: all 0.8s;
-        -o-transition: all 0.8s;
-        -ms-transition: all 0.8s;
-        transition: all 0.8s;
-    }
-
-    .social-network a {
-        background-color: #F9F9F9;
-    }
-
-    /* ----------------- GLOWING TEXT EFFECT ----------------------- */
-    .glow {
-        font-size: 30px;
-        color: #ec3636;
-        text-align: center;
-        animation: glow 1s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00e6ad, 0 0 20px #00e6ad, 0 0 25px #00e6ad, 0 0 30px #00e6ad, 0 0 35px #00e6ad;
-        }
-
-        to {
-            text-shadow: 0 0 10px #fff, 0 0 15px #ffc93c, 0 0 20px #ffc93c, 0 0 25px #ffc93c, 0 0 30px #ffc93c, 0 0 35px #ffc93c, 0 0 40px #ffc93c;
-        }
-    }
-
-
-    /* ----------------- GLOWING IMAGE EFFECT ----------------------- */
-
-    
-</style>
-<style>
-    * {
-      box-sizing: border-box;
-    }
-    
-  
-    
-    #myVideo {
-      position: fixed;
-      width:100%;
-      height:100%;
-    }
-    
-    .content {
-      position: fixed;
-      bottom: 300px;
-    
-      width: 100%;
-      
-      padding: 20px;
-    }
-
-    .footer {
-        position: fixed;
-        bottom: 300px;
-        background: rgba(0, 0, 0, 0.5);
-        color: #f1f1f1;
-        width: 100%;
-        padding: 20px;
-      }
-    
-    #myBtn {
-      width: 200px;
-      font-size: 18px;
-      padding: 10px;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-    }
-    
-    #myBtn:hover {
-      background: #ddd;
-      color: black;
-    }
-</style>
-<body style=>
-    <!-- <nav class="navbar navbar-dark bg-primary" style="background-color: #47a7ec; color: white;">
-        </nav> -->
-    <!-- <center> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffc93c; color: white; ">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <!-- Action Area -->
+        <div class="action-area">
+            <h2 style="margin-bottom: 30px; color: var(--light);">Voice Assistant</h2>
+            
+            <form id="voiceForm" method="POST" action="/home">
+                <input type="hidden" name="command" id="commandInput">
+                <button type="button" id="startBtn" class="talk-btn pulse">
+                    <i class="fas fa-microphone mic-icon"></i> Start Talking
                 </button>
-    
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/"><button
-                                    class="btn btn-outline-primary">Home</button></a>
-                                    <li class="nav-item">
-                                        <form action="/chat" method="POST">
-                                            <a class="nav-link" href="/chat"><button class="btn btn-outline-primary">Chat</button></a>
-                                        </form>
-                                        <!--Project Group Info-->
-                                    </li>
-                        </li>
-    
-                        
-                        <li class="nav-item">
-                            <form action="/aboutus" method="POST">
-                                <a class="nav-link" href="/aboutus"><button class="btn btn-outline-primary">About
-                                        Us</button></a>
-                            </form>
-                            <!--Project Group Info-->
-                        </li>
-                        
-                    </ul>
+            </form>
+            
+            <div class="user-input" id="userInput"></div>
+            
+            <!-- Results Section -->
+            <div class="result-container">
+                <h3 class="result-header">Results</h3>
+                
+                <div class="command-display">
+                    <div class="label">User Command</div>
+                    <div class="value">{{user_input}}</div>
+                </div>
+                
+                <div class="result-display">
+                    <div class="label">Processing Result</div>
+                    <div class="value">{{comp.replace('x', userName)}}</div>
                 </div>
             </div>
-        </nav>
-   
-    <div id="myVideo" style="">
-        <video id="myVideo" poster="{{ url_for('static', filename='poster.JPG') }}" autoplay muted loop>
-          <source src="{{ url_for('static', filename='video2.mp4') }}" type="video/mp4">
-        </video>
-      </div>
-    <!-- Typing Effect -->
-
-    <div class="containerText" class="content">
-        <p>
-            <!-- <any Static Words Here> --> <span class="typed-text"></span><span class="cursor">&nbsp;</span>
-        </p>
-    </div>
-
-
-    <div  class="content" style="text-align: center;">
-        <h2 style="font-family: Helvetica, Arial; font-weight: 600;">
-            <!--Welcome {{userName}} !!-->
-        </h2>
-
-        <!--Retrive username from demoApp.py and display in for both user commands and computer return statement-->
-
-        <a href="#" class="icoMic" title="Mic" target="_blank"><i class="fa fa-mic"></i></a>
-        <form action="/home" method=POST>
-            <!--Start Button to trigger takeCommand() -->
-            <div>
-                <a href="#">
-
-                    <button class="btn btn-primary " style="padding:10px 30px;font-size:30px;border-color:white;" title="Start">
-                       
-                        Start
-                    </button>
-                </a>
-            </div>
-        </form>
-
-        <br>
-       
-        <div class="img" class="content"></div>
-        <!--  -->
-        <p class="glow" class="content"> Result</p><br><br><br><br><br><br>
-
-        <div style="color:white;font-size:30px;" class="content">
-            <b><u>USER COMMAND</u> : <i>{{user}}</i></b><br><br>
-            <b><u>PROCESSING RESULT</u> : <i>{{comp}}</i></b>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     
-      
-      
-
-
-    <!-- </center> -->
-
-
-
-
-    <!-- FOOTER HTML/CSS -->
-    
-
-
-    <!-- END OF FOOTER -->
-    <script>
-        var video = document.getElementById("myVideo");
-        var btn = document.getElementById("myBtn");
-        
-        function myFunction() {
-          if (video.paused) {
-            video.play();
-            btn.innerHTML = "Pause";
-          } else {
-            video.pause();
-            btn.innerHTML = "Play";
-          }
-        }
-        </script>
-
+    <!-- Typing Effect Script -->
     <script>
         const typedTextSpan = document.querySelector(".typed-text");
         const cursorSpan = document.querySelector(".cursor");
 
-        const textArray = ["Welcome {{userName}} !!", "Welcome To Voice Assistant", "Check out Commands", "Enjoy !!", "Developed By - Our Team :)"];
+        const textArray = ["Welcome {{userName}} !", "Your Luna Voice Assistant", "Ask me anything", "Try voice commands", "I'm here to help"];
         const typingDelay = 100;
         const erasingDelay = 70;
         const newTextDelay = 1800; // Delay between current and next text
@@ -471,6 +512,42 @@
             if (textArray.length) setTimeout(type, newTextDelay + 250);
         });
     </script>
-</body>
 
+    <!-- Voice Recognition Script -->
+    <script>
+        const startBtn = document.getElementById("startBtn");
+        const userInputDisplay = document.getElementById("userInput");
+        const form = document.getElementById("voiceForm");
+        const inputField = document.getElementById("commandInput");
+    
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+    
+        startBtn.addEventListener("click", () => {
+            startBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Listening...';
+            startBtn.classList.add('pulse');
+            recognition.start();
+        });
+    
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            inputField.value = transcript;
+            userInputDisplay.textContent = "You said: " + transcript;
+            startBtn.innerHTML = '<i class="fas fa-microphone mic-icon"></i> Start Talking';
+            startBtn.classList.remove('pulse');
+            form.submit();
+        };
+    
+        recognition.onerror = function(event) {
+            userInputDisplay.textContent = "Error: " + event.error;
+            startBtn.innerHTML = '<i class="fas fa-microphone mic-icon"></i> Start Talking';
+            startBtn.classList.remove('pulse');
+        };
+        
+        recognition.onend = function() {
+            startBtn.innerHTML = '<i class="fas fa-microphone mic-icon"></i> Start Talking';
+            startBtn.classList.remove('pulse');
+        };
+    </script>
+</body>
 </html>

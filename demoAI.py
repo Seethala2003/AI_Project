@@ -68,30 +68,31 @@ def takeCommand():
     return query
 
 
-def working(query):     #user input will be compare by each task
+def working(query, userName="User"):     #user input will be compare by each task
+    # Added userName parameter with default value
 
     if "time" in query:  # Test Status : Working
         strTime = datetime.datetime.now().strftime("%H hours & %M minute")
-        # speak(f"Sir the time is {strTime}")
-        return f"Sir the time is {strTime}"
+        # speak(f"{userName} the time is {strTime}")
+        return f"{userName} the time is {strTime}"
 
     elif "date" in query:
         Year = datetime.datetime.now().date().year
         Month = datetime.datetime.now().date().month
         Date = datetime.datetime.now().date().day
-        # speak(f"Sir Today's Date is {Date} {Month} {Year}")
-        return f"Sir Today's Date is {Date} {Month} {Year}"
+        # speak(f"{userName} Today's Date is {Date} {Month} {Year}")
+        return f"{userName} Today's Date is {Date} {Month} {Year}"
 
     elif "how are you" in query:
-        # speak("I am Fine, How are you Sir ")
-        return "I am Fine, How are you Sir "
+        # speak("I am Fine, How are you {userName}")
+        return f"I am Fine, How are you {userName}"
     
     elif "cricket review" in query:
-        # speak("I am Fine, How are you Sir ")
+        # speak("I am Fine, How are you {userName}")
         return "Rohit Sharma May Retire If India Lose Champions Trophy 2025 Final: Report. Two Names Emerge As Successors"
     
     elif "developer name" in query:
-        # speak("I am Fine, How are you Sir ")
+        # speak("I am Fine, How are you {userName}")
         return "Mr Arun From Top Tech Developers Team We Offer More than Career Success for Clients and others. Our Side Provide Free Career Guidence and Web Developement. Free Internship Also Provideed for Selected Candiadtes.More than projects Available in All Domain Sectors..successfuljourney woth your Top Tech Developers Team to make your Life As bright and Modern way of life "
 
     elif "wikipedia" in query:  # Test Status : Working
@@ -153,7 +154,7 @@ def working(query):     #user input will be compare by each task
     elif "weather" in query:  # test Status : Null
         baseUrl = "http://api.openweathermap.org/data/2.5/weather?"
         try:
-            city = query.replace("weather", "")  # Nandurbar
+            city = query.replace("weather", "").strip()   # Nandurbar
             res = requests.get(baseUrl+"appid="+appId+"&q="+city)
             data = res.json()
             Celius = data["main"]["temp"] - 273.15
@@ -161,7 +162,7 @@ def working(query):     #user input will be compare by each task
 
             # rest = "weather of " + query
             # res = clientObj.query(rest)
-            return f"Sir, The Current Temperature is {round(Celius, 2)}°C and Wind Speed is {windSpeed} miles per second"
+            return f"{userName}, The Current Temperature is {round(Celius, 2)}°C and Wind Speed is {windSpeed} miles per second"
         except Exception:
             return "Sorry, No Such City"
 
@@ -190,7 +191,7 @@ def working(query):     #user input will be compare by each task
         )
         openFile.write(save + "\n")  # to save new text on new line
         openFile.close()
-        return "Ok Sir, I will remember this"
+        return f"Ok {userName}, I will remember this"
     
     elif "History" in query:  # That I have my meeting regarding FInal Project on 29th May
         save = query.replace("History", "", 1)
@@ -200,20 +201,17 @@ def working(query):     #user input will be compare by each task
         )
         openFile.write(save + "\n")  # to save new text on new line
         openFile.close()
-        return "Hello seetha am read your history you are duku developer"
+        return f"Hello {userName}, I am reading your history. You are a developer."
     
     elif "calculate" in query:
         res = clientObj.query(query)
         return f"Your answer is {next(res.results).get('subpod').get('plaintext')}"
 
     elif "capstone" in query:
-        return "Hello  am read your history you are duku developers"
+        return f"Hello {userName}, I am reading your history. You are a developer."
     
     elif "python" in query:
-        return "Hello  am read your history you are duku developers"
+        return f"Hello {userName}, I am reading your history. You are a developer."
 
     else:
-        return "Sorry I didn't get that \n I'm Still Learning New Stuff"
-
-
-
+        return f"Sorry {userName}, I didn't get that. I'm Still Learning New Stuff"

@@ -5,73 +5,495 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up</title>
+    <title>Luna - Sign In</title>
+    <link rel="icon" href="/static/GPN-LogoNew.png">
 
-    <!-- Font Icon -->
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename= 'fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/login.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #4361ee;
+            --accent: #4cc9f0;
+            --dark: #242442;
+            --light: #f8f9fa;
+            --success: #4ade80;
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle, #2c2c52, #242442);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .signin-content {
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background-color: rgba(36, 36, 66, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .signin-image {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1) 0%, rgba(67, 97, 238, 0.1) 100%);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signin-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.2) 0%, rgba(67, 97, 238, 0.2) 100%);
+            z-index: -1;
+        }
+
+        .signin-image img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .signin-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .signin-form {
+            width: 55%;
+            padding: 40px;
+        }
+
+        .form-title {
+            font-size: 28px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: none;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Custom Checkbox */
+        .agree-term {
+            display: none;
+        }
+
+        .label-agree-term {
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--light);
+            user-select: none;
+            display: inline-block;
+        }
+
+        .label-agree-term span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .label-agree-term span::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 10px;
+            border: solid var(--accent);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .agree-term:checked + .label-agree-term span {
+            background-color: rgba(76, 201, 240, 0.3);
+        }
+
+        .agree-term:checked + .label-agree-term span::after {
+            opacity: 1;
+        }
+
+        .form-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-submit {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .form-submit:active {
+            transform: translateY(2px);
+        }
+
+        .error_message {
+            color: var(--danger);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        #login_message {
+            color: var(--success);
+            font-size: 14px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .signup-image-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .signup-image-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .signup-image-link:hover::after {
+            width: 100%;
+        }
+
+        .signup-image-link:hover {
+            color: var(--light);
+        }
+
+        /* Logo styling */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container svg {
+            height: 80px;
+            width: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signin-content {
+                flex-direction: column;
+            }
+
+            .signin-image {
+                width: 100%;
+                padding: 20px;
+                order: 2; /* Move image below form on mobile */
+            }
+
+            .signin-form {
+                width: 100%;
+                padding: 30px;
+                order: 1; /* Show form first on mobile */
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
 
-    <div class="main">
-        <!-- Sing in  Form -->
-        <section class="sign-in" >
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="{{ url_for('static', filename= 'images/signin-image.jpg') }}"
-                                alt="sing up image"></figure>
-                    </div>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer glow effect -->
+                <circle cx="90" cy="75" r="55" fill="none" stroke="#4cc9f0" stroke-width="2" opacity="0.2" />
 
-                    <div class="signin-form">
-                        <h2 class="form-title">Sign In</h2>
-                        <div style="margin-bottom:10px">
-                            <label class="label-agree-term error_message" style="color: red;display: none;"></label>
-                        </div>
-                        <form action="/signin" method="POST" class="register-form" id="login-form">
-                            <div class="form-group">
-                                <label for="your_email"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="email" id="email" placeholder="Email" />
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password" />
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember
-                                    me</label>
-                            </div>
-                            <div class="form-button">
-                                <input type="button" name="signin" id="signin" class="form-submit" onclick="login();" value="Log in" />
-                            </div>
-                            <div style="margin-top:5px;">
-                                <label class="label-agree-term" id="login_message" style="color: green;display: none;"></label>
-                            </div>
-                        </form>
-                        <div class="social-login">
-                            <a href="/signup" class="signup-image-link">Create an account</a>
-                        </div>
+                <!-- Main circle with gradient -->
+                <circle cx="90" cy="75" r="50" fill="#242442" stroke="#4cc9f0" stroke-width="3" />
+
+                <!-- Luna crescent moon shape with refined curves -->
+                <path
+                    d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z"
+                    fill="#4cc9f0" />
+
+                <!-- Refined sparkles - small glowing dots with rays -->
+                <!-- Sparkle 1 -->
+                <circle cx="150" cy="40" r="1" fill="#ffffff" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" />
+                </circle>
+                <line x1="148" y1="40" x2="152" y2="40" stroke="#ffffff" stroke-width="0.5" opacity="0.7" />
+                <line x1="150" y1="38" x2="150" y2="42" stroke="#ffffff" stroke-width="0.5" opacity="0.7" />
+
+                <!-- Sparkle 2 -->
+                <circle cx="160" cy="50" r="0.8" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite" />
+                </circle>
+                <line x1="159" y1="50" x2="161" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+                <line x1="160" y1="49" x2="160" y2="51" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+
+                <!-- Sparkle 3 -->
+                <circle cx="145" cy="60" r="1.2" fill="#ffffff" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite" />
+                </circle>
+                <line x1="143" y1="60" x2="147" y2="60" stroke="#ffffff" stroke-width="0.5" opacity="0.5" />
+                <line x1="145" y1="58" x2="145" y2="62" stroke="#ffffff" stroke-width="0.5" opacity="0.5" />
+
+                <!-- Additional sparkles with subtle rays -->
+                <circle cx="130" cy="45" r="0.7" fill="#ffffff" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.7;0.2" dur="5s" repeatCount="indefinite" />
+                </circle>
+                <line x1="129" y1="45" x2="131" y2="45" stroke="#ffffff" stroke-width="0.3" opacity="0.4" />
+                <line x1="130" y1="44" x2="130" y2="46" stroke="#ffffff" stroke-width="0.3" opacity="0.4" />
+
+                <circle cx="165" cy="70" r="0.9" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4.2s" repeatCount="indefinite" />
+                </circle>
+                <line x1="164" y1="70" x2="166" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+                <line x1="165" y1="69" x2="165" y2="71" stroke="#ffffff" stroke-width="0.4" opacity="0.6" />
+
+                <!-- Sound wave lines with animated pulse effect -->
+                <path d="M150 75h30" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+                </path>
+                <path d="M145 55h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite" />
+                </path>
+                <path d="M145 95h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.6s" repeatCount="indefinite" />
+                </path>
+
+                <!-- Dots at the ends with pulse effect -->
+                <circle cx="190" cy="55" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="190" cy="95" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite" />
+                </circle>
+
+                <!-- Text "LUNA" with enhanced style -->
+                <text x="220" y="85" font-family="Poppins, sans-serif" font-size="50" font-weight="700" fill="#ffffff">
+                    LUN<tspan fill="#4cc9f0">A</tspan>
+                </text>
+
+                <!-- Text "AI ASSISTANT" with subtle gradient -->
+                <text x="220" y="115" font-family="Poppins, sans-serif" font-size="20" font-weight="400" fill="#4cc9f0">
+                    AI ASSISTANT
+                </text>
+            </svg>
+        </div>
+
+        <!-- Sign In Form -->
+        <div class="signin-content">
+            <div class="signin-image">
+                <img src="{{ url_for('static', filename= 'images/signin-image.jpg') }}" alt="sign in image">
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Welcome Back</h2>
+                <div>
+                    <label class="error_message"></label>
+                </div>
+                <form action="/signin" method="POST" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text" name="email" id="email" placeholder="Email" />
                     </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="pass" id="pass" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                        <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                    </div>
+                    <div class="form-button">
+                        <input type="button" name="signin" id="signin" class="form-submit" onclick="login();" value="Sign In" />
+                    </div>
+                    <div>
+                        <label id="login_message"></label>
+                    </div>
+                </form>
+                <div class="social-login">
+                    <a href="/signup" class="signup-image-link">Create an account</a>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
     <!-- JS -->
     <script src="{{ url_for('static', filename= 'vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+    
+    <script>
+        // Create stars background
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1-3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Random position
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                star.style.animationDuration = duration + 's';
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                star.style.animationDelay = delay + 's';
+                
+                stars.appendChild(star);
+            }
+        });
 
-    <script type="text/javascript">
-        
-        function login(){
-
-            if (($("#email").val() == "") || ($("#pass").val() == '')){
-
+        function login() {
+            if (($("#email").val() == "") || ($("#pass").val() == '')) {
                 $(".error_message").text("All fields are required.");
                 $(".error_message").show(0).delay(3000).hide(0);
             }
@@ -95,26 +517,26 @@
                             var data = response; // already parsed when using jsonify
                             console.log("Parsed JSON:", data);
 
-                            if (data['status'] == true){
-                                $('#login_message').text("Welcome " + data['username'] +", Login Successfully.");
+                            if (data['status'] == true) {
+                                $('#login_message').text("Welcome " + data['username'] + ", login successful!");
+                                $('#login_message').show();
                                 console.log("Redirecting to /home...");
                                 setTimeout(function() {
                                     window.location.href = "/home";
                                 }, 3000);
                             } else {
-                                $(".error_message").text("Incorrect Email and Password.");
+                                $(".error_message").text("Incorrect email or password.");
                                 $(".error_message").show(0).delay(3000).hide(0);
                             }
                         } catch (err) {
                             console.error("Error parsing response:", err);
-                            $(".error_message").text("An error occurred. Check console.");
+                            $(".error_message").text("An error occurred. Please try again.");
                             $(".error_message").show(0).delay(3000).hide(0);
                         }
                     }
                 });
             }
         }
-
     </script>
 </body>
 

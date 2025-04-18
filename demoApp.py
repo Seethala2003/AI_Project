@@ -16,12 +16,48 @@ from modules import motivation_module as motivation_engine
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Replace with a secure key in production
 
+@app.before_request
+def log_request_info():
+    print(f"Request path: {request.path}")
+    print(f"Current session: {session}")
+    print(f"Username in session: {'username' in session}")
+    
+def check_login():
+    if 'username' not in session:
+        return redirect(url_for('home'))
+    return None
+
 def speak_safe(text):
-    threading.Thread(target=speak, args=(text,)).start()
+    try:
+        # Replace characters that might cause TTS issues
+        text = str(text).replace("°C", " degrees Celsius")
+        
+        engine = pyttsx3.init()  # Create a new engine instance each time
+        engine.setProperty("rate", 150)  # Adjust rate if needed
+        engine.say(text)  # Text is already converted to string
+        engine.runAndWait()
+        return True
+    except Exception as e:
+        print(f"Speech error: {e}")
+        return False
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("signin.html")
+    # Always clear the session when hitting the home route directly
+    session.clear()
+    print("Current session:", session)
+    print("Username in session:", 'username' in session)
+    
+    # Now check if user is logged in (should always be False after clearing)
+    if 'username' in session:
+        return redirect(url_for('demoFun'))
+    else:
+        return render_template("signin.html")
+    
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -46,44 +82,45 @@ def register():
     status = db.insert_data()
     return json.dumps(status)
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def demoFun():
     if 'username' not in session:
         return redirect(url_for('home'))
 
     user = session['username']
-    speak_safe(greet(user))  # <-- changed
-    return render_template('demoFlask.html', userName=user)
+    
+    if request.method == 'POST':
+        user_input = request.form.get('command', '').lower()
+        
+        if not user_input or user_input == "none":
+            response_text = "Sorry, please say that again."
+        else:
+            speak_safe("Searching. Please wait.")
+            response_text = working(user_input, user)
+        
+        # Speak the response before rendering the template
+        speech_success = speak_safe(response_text)
+        
+        return render_template('demoFlask.html', 
+                               comp=response_text, 
+                               userName=user, 
+                               user=user.title(), 
+                               user_input=user_input,
+                               speech_status=speech_success)
+    
+    # GET request handling
+    speak_safe(greet(user))
+    return render_template('demoFlask.html', comp="", userName=user, user=user.title())
 
-
-@app.route('/home', methods=['POST'])
-def newdemoFun():
-    if 'username' not in session:
-        return redirect(url_for('home'))
-
-    user = session['username']
-    response_text = ""
-    user_input = takeCommand().lower()
-
-    if user_input == "none":
-        response_text = "Sorry, please say that again."
-    else:
-        speak_safe("Searching. Please wait.")  # <-- changed
-        response_text = working(user_input)
-
-    speak_safe(response_text)  # <-- changed
-    print("output--------------", response_text)
-    return render_template('demoFlask.html', comp=response_text, user=user.title(), user_input=user_input)
-
-@app.route('/command', methods=['POST'])
+@app.route('/command', methods=['GET', 'POST'])
 def commandPage():
     return render_template('demoCommands.html', commandName="demo")
 
-@app.route('/aboutus', methods=['POST'])
+@app.route('/aboutus', methods=['GET', 'POST'])
 def aboutusPage():
     return render_template('demoAboutUs.html')
 
-@app.route('/chat', methods=['POST'])
+@app.route('/chat', methods=['GET', 'POST'])
 def chatPage():
     return render_template('index.html')
 

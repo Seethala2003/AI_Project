@@ -4,686 +4,694 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:site_name" content="View Varshith's Portfolio Website">
-    <meta property="og:title" content="Developer | Varshith" />
+    <meta property="og:site_name" content="Luna AI Chat Assistant">
+    <meta property="og:title" content="Luna | AI Code Assistant" />
     <meta property="og:description"
-        content="Hello there 👋🏻,My name is Varshith Hegde.I am a Computer Engineering student at Maangalore Institute of Technology And Engineering 👨🏻‍💻📚I am eager to hear about potential career opportunities, so I would be pleased to chat about job openings in the engineering sphere.Send 'help' to know more about me." />
-    <meta property="og:type" content="website" />
-
+        content="Hello there 👋🏻, I'm Luna, your AI Code Assistant. I'm here to help with your programming questions and code-related needs. Send 'help' to know more about what I can do for you." />
     <meta property="og:type" content="website" />
     <meta property="og:image:type" content="image/jpeg">
-
-    <link rel="icon" type="image/png" href="images/favicon.ico" />
+    <link rel="icon" type="image/png" href="favicon.ico" />
     <meta property="og:image:width" content="300">
     <meta property="og:image:height" content="300">
     <meta property="og:updated_time" content="1440432930" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <title>Code Generator</title>
+    <title>Luna Code Assistant</title>
     <style>
-        *{
+        * {
             padding: 0;
             margin: 0;
-            font-family: Verdana, Tahoma, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
         
-        body{
-            padding-top: 1vh;
-            background-color: #1b1b1b;
-            background-size: unset;
-            background-repeat: repeat;
-            background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq2bv2wKAky-YTtLASWkLd6ZjKJHP8_GEnFw&usqp=CAU');
-            height: 98vh;
-        }
-        
-        nav{
-            display: flex;
-            height: 6%;
-            background-color: #202c33;
-        }
-        
-        .navbar{
-            width: 100%;
-            display: flex;
-        }
-        
-        
-        .dpimg{
-            cursor: pointer;
-            border-radius: 100%;
-            width: 15%;
-            height: 15%;
-            height: auto;
-            margin: auto 0px;
-            margin-left: 10px;
-        }
-        
-        .navbar .personalInfo{
-            line-height: 100%;
-            display: flex;
-            flex-direction: column;
-            margin: auto 0px;
-            margin-left: 2%;
-        }
-        
-        .personalInfo #name{
-            color: #e9edef;
-            margin-bottom: 4px;
-        }
-        
-        .personalInfo #lastseen{
-            color: #8696a0;
-            font-size: small;
-        }
-        
-        
-        .scrollable{
-            overflow-y: scroll;
+        body {
+            height: 100vh;
+            background-color: #0F0F1A;
             color: #fff;
             display: flex;
-            height: 88%;
             flex-direction: column;
-            background-image: url('images/bg2.jpg');
-            align-items: flex-end;
-            position: relative;
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-            position: relative;
         }
         
-        .scrollable .chatting{
-            overflow-y: scroll;
-            -ms-overflow-style: none; 
-            scrollbar-width:none; 
-            position: relative;
-            height: 100%;
+        /* Navigation bar */
+        nav {
+            display: flex;
+            height: 70px;
+            background-color: #151526;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            border-bottom: 1px solid rgba(76, 201, 240, 0.1);
+        }
+        
+        .navbar {
             width: 100%;
-            background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjYOy0uXgawCBFDFJGqlbkIc2kSsbdUjnTlA&usqp=CAU');
-            background-image:no-repeat;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
         }
         
-        .scrollable .chatting::-webkit-scrollbar {
-            display: none;
-          }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
         
-        #listUL{
+        .dpimg {
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            background-color: #1E1E3A;
+            padding: 2px;
+            border: 2px solid #4cc9f0;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+        
+        .personalInfo {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .personalInfo #name {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .personalInfo #lastseen {
+            color: #4cc9f0;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: #1E1E3A;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .action-button:hover {
+            background-color: #2A2A4A;
+        }
+        
+        .action-button i {
+            color: #4cc9f0;
+            font-size: 16px;
+        }
+        
+        /* Home button styling */
+        .home-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 15px;
+            border-radius: 8px;
+            background-color: #4cc9f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 12px;
+        }
+        
+        .home-button:hover {
+            background-color: #7dd9f7;
+            transform: translateY(-2px);
+        }
+        
+        .home-button i {
+            color: #14142B;
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        
+        .home-button span {
+            color: #14142B;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Main chat area */
+        .scrollable {
+            flex: 1;
             overflow-y: hidden;
-            position: static;
-            width: 100%;
-            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #0F0F1A;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(76, 201, 240, 0.02) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(76, 201, 240, 0.02) 0%, transparent 20%);
+            position: relative;
+        }
+        
+        .chatting {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #4cc9f0 #1A1A2E;
+        }
+        
+        .chatting::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .chatting::-webkit-scrollbar-track {
+            background: #1A1A2E;
+        }
+        
+        .chatting::-webkit-scrollbar-thumb {
+            background-color: #4cc9f0;
+            border-radius: 20px;
+        }
+        
+        #listUL {
             list-style-type: none;
             display: flex;
             flex-direction: column;
+            gap: 20px;
         }
         
-        #listUL li{
+        #listUL li {
             width: 100%;
-            text-decoration: none;
-            flex-direction: row-reverse;
-        }
-        
-        .sent{
-            text-align: end;
-            float: right;
-            width: auto;
-            max-width: 45%;
-        }
-        
-        .green{
-            margin: 5px;
-            text-align: start;
-            width: auto;
-            padding: 10px;
-            background-color: #005c4b;
-            border-radius: 15px 15px 0px;
-        }
-        
-        #sentlabel{
-            color: #94bab3;
-            display: block;
-            text-align: end;
-            font-size: x-small;
-        }
-        
-        .recieved{
-            float: left;
-            width: 45%;
-            max-width: 45%;
-            background-color: red;
-        
-        }
-        
-        
-        .grey{
-            max-width: 60%;
-            margin: 5px;
-            text-align: start;
-            width: auto;
-            padding: 10px;
-            background-color: red;
-            border-radius: 0px 15px 15px;
-            color: white;
-        }
-        
-        .grey .mapview{
-            margin: auto;
             display: flex;
-            padding: 5px;
         }
         
-        .add address{
-            margin-top: 10px;
-            padding-left: 15px;
+        /* Message styling */
+        .sent, .received {
+            max-width: 80%;
         }
         
-        .map{
-            margin: auto;
-            width: 100%;
-            border-radius: 10px;
+        @media (min-width: 768px) {
+            .sent, .received {
+                max-width: 60%;
+            }
         }
         
-        .dateLabel{
-            color: #94bab3;
-            display: block;
-            text-align: end;
-            font-size: x-small;
+        .sent {
+            margin-left: auto;
         }
         
-        
-        /* help menu bold words color  */
-        
-        .sk .bold{
-            color: rgba(219, 154, 33, 0.822);
+        .received {
+            margin-right: auto;
         }
         
-        
-        /* resume thumbnail in received class*/
-        .resumeThumbnail{
-            width: 100%;
-            border-radius: 10px 10px 0px 0px;
-        }
-        
-        .downloadSpace{
-            background-color: #1d282f;
-            display: flex;
-            width: 100%;
-        }
-        .downloadSpace .pdfname{
-            display: flex;
-            width: 100%;
-        }
-        .pdfname label{
-            margin: auto 0px;
-        }
-        .downloadSpace img{
-            width: 30px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        
-        /* this css is used for embedded html in messages */
-        .bold{
-            font-weight: bold;
-        }
-        
-        .alink{
-            color: goldenrod;
-            transition: all 600ms ease;
-            text-decoration: none;
-        }
-        
-        .alink:hover{
-            text-decoration: none;
-            color: green;
-        }
-        
-        /* this css is used for social links message */
-        
-        .social{
-            padding: 10px;
-        }
-        
-        .social .socialItem{
-            width: 100%;
-            border-radius: 10px;
-            background-color: #94bab3;
-            cursor: pointer;
-            display: flex;
-            margin-bottom: 10px;
-            transition: all 500ms ease-in-out;
-        }
-        
-        .social .socialItemI{
-            margin: auto;
-            padding: 10px;
-            flex-direction: column;
-        }
-        
-        .social .socialItem:hover{
-            background-color: rgba(58, 170, 58, 0.863);
-        }
-        #call{
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .number{
-            display: none;
-        }
-        
-        
-        
-        
-        .scrollable .fullScreenDP{
-            transition: all 700ms ease-in-out;
-            position: absolute;;
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            background-color: #2f2f2fec;
-            z-index: 1000;
-        }
-        
-        .scrollable .fullScreenDP .insideDP{
-            display: flex;
-            margin: auto;
-            scrollbar-width: 0px;
-        }
-        
-        .closeBTN{
-            width: 30px;
-            height: 30px;
-            display: block;
-            position: absolute;
-            margin-left: 6%;
-            margin-top: 5px;
-            cursor: pointer;
-            
-        }
-        
-        .btnColor{
-            fill: rgba(0, 0, 0, 0.692);
-            transition: all 400ms ease-in-out;
-        }
-        
-        .closeBTN:hover .btnColor{
-            fill: red;
-        }
-        
-        
-        
-        .scrollable .fullScreenDP .insideDP .dp{
-            width: 90%;
-            margin: auto;
-            border-radius: 10px;
-        }
-        
-        
-        
-        
-        
-        
-        
-        footer{
-            position: relative;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            color: white;
-            text-align: center;
-            height: auto;
-            background-color: #202c33;
-            text-align: center;
-        }
-        
-        .sendBar{
-            display: flex;
-            height: 100%;
-            width: 100%;
-            margin: auto;
-        }
-        .sendBar svg{
-            margin: auto;
-            height: 40%;
-            min-height: 40%;
-        
-        }
-        
-        .sendBar input[type='text']{
-            margin: auto;
-            margin: 5px;
-            border-radius: 10px;
-            padding: 10px;
+        .green {
+            background-color: #2D2D52;
             color: #fff;
-            float: left;
-            width: 80%;
-            height: 100%;
-            outline-color: transparent;
-            accent-color: transparent;
-            background-color: #2a3942;
-            outline: none;
-            border-color: transparent;
+            padding: 16px;
+            border-radius: 16px 16px 0 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            line-height: 1.5;
         }
         
+        .grey {
+            background-color: #4cc9f0;
+            color: #14142B;
+            padding: 16px;
+            border-radius: 16px 16px 16px 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            line-height: 1.5;
+        }
         
-        ::placeholder { 
-            color: #8696a0;
-            opacity: 1; 
-          }
-          
-          :-ms-input-placeholder { 
-            color: #8696a0;
-          }
-          
-          ::-ms-input-placeholder { 
-            color: #8696a0;
-          }
+        #sentlabel, .dateLabel {
+            display: block;
+            font-size: 11px;
+            margin-top: 6px;
+            text-align: right;
+            color: rgba(255, 255, 255, 0.6);
+        }
         
+        /* Help menu styling */
+        .sk .bold {
+            color: #4cc9f0;
+            font-weight: 600;
+        }
         
+        .bold {
+            font-weight: 600;
+        }
         
+        .alink {
+            color: #ff647c; /* Changed from #4cc9f0 to a contrasting pink color */
+            transition: all 300ms ease;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600; /* Added bold for better visibility */
+        }
+        
+        .alink:hover {
+            text-decoration: underline;
+            color: #ff8c9e; /* Lighter pink on hover */
+        }
+        
+        /* Footer and input area */
+        footer {
+            height: 80px;
+            background-color: #151526;
+            padding: 16px 20px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(76, 201, 240, 0.1);
+        }
+        
+        .sendBar {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sendBar input[type='text'] {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            background-color: #1E1E3A;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 300ms ease;
+        }
+        
+        .sendBar input[type='text']:focus {
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.2);
+            border-color: #4cc9f0;
+        }
+        
+        .send-button {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4cc9f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 200ms ease;
+        }
+        
+        .send-button:hover {
+            background-color: #7dd9f7;
+            transform: translateY(-2px);
+        }
+        
+        .send-button i {
+            font-size: 20px;
+            color: #14142B;
+        }
+        
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Full screen display image */
+        .fullScreenDP {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 15, 26, 0.95);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+        
+        .insideDP {
+            position: relative;
+            width: 80%;
+            max-width: 500px;
+        }
+        
+        .dp {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .closeBTN {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 40px;
+            height: 40px;
+            background-color: #14142B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            transition: all 200ms ease;
+        }
+        
+        .closeBTN:hover {
+            background-color: #1E1E3A;
+            transform: scale(1.05);
+        }
+        
+        .closeBTN i {
+            font-size: 20px;
+            color: #4cc9f0;
+        }
+        
+        .closeBTN:hover i {
+            color: #ff647c;
+        }
+        
+        /* Media queries for desktop */
         @media screen and (min-width: 1024px) {
-        
-            body{
-                margin: auto;
-                width: 50vw;
-            }
-        
-            .sendBar{
-                width: 85%;
-            }
-        
-            .scrollable{
-                -ms-overflow-style: none; 
-                scrollbar-width: none; 
-                position: relative;
-                overflow: hidden;
-            }
-        
-            
-        
-            .scrollable .fullScreenDP{
-                display: none;
-                width: 100%;
-                height: 100%;
-                overflow-y: scroll;
-            }
-        
-        
-            .scrollable .fullScreenDP .insideDP{
-                display: flex;
-                width: 70%;
-            }
-        
-        
-            .scrollable .fullScreenDP .dp{
-                width: 50%;
-                margin: auto;
-            }
-        
-            .scrollable .closeBTN{
-                margin-top: 15px;
-            }
-        
-            #call:hover .number{
-                display: block;
-                height: auto;
+            body {
+                margin: 0 auto;
+                max-width: 1000px;
+                border-left: 1px solid rgba(76, 201, 240, 0.1);
+                border-right: 1px solid rgba(76, 201, 240, 0.1);
             }
         }
     </style>
-
 </head>
 
 <body onload="startFunction()">
-
-  
-
+    <!-- Navigation bar -->
     <nav>
-
         <div class="navbar">
-            <img class="dpimg" onclick="openFullScreenDP()" src="./static/bg.jpeg" alt="" height:"40px" width:"40px">
-            <div class="personalInfo">
-                <label id="name">VOICE ASSISTANT CHATBOT..!!!</label>
-                <label id="lastseen">Am ready to help for you..!!</label>
+            <div class="logo-container" onclick="openFullScreenDP()">
+                <!-- Luna logo - CORRECTED VIEWBOX -->
+                <svg class="dpimg" viewBox="40 25 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Main circle with gradient -->
+                  <circle cx="90" cy="75" r="50" fill="#1E1E3A" stroke="#4cc9f0" stroke-width="3"/>
+                  
+                  <!-- Luna crescent moon shape -->
+                  <path d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z" fill="#4cc9f0"/>
+                </svg>
+                
+                <div class="personalInfo">
+                    <label id="name">LUNA AI ASSISTANT</label>
+                    <label id="lastseen">Ready to help you code</label>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <!-- New Home Button -->
+                <a href="/home" class="home-button">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <div class="action-button">
+                    <i class="fas fa-redo-alt"></i>
+                </div>
+                <div class="action-button" onclick="clearChat()">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
             </div>
         </div>
     </nav>
 
-    
-
-    <div class="scrollable" id="myScrollable" >
-
+    <!-- Chat area -->
+    <div class="scrollable" id="myScrollable">
+        <!-- Full screen profile display -->
         <div class="fullScreenDP" id="fullScreenDP">
             <div class="insideDP">
-                <img class="dp"  onclick="openFullScreenDP()" src="images/varshi1.jpg" alt="">
-                <svg class="closeBTN" onclick="closeFullDP()" xmlns="http://www.w3.org/2000/svg" width="64px"
-                    viewBox="0 0 512 512" height="64px">
-                    <path class="btnColor" fill="#E04F5F"
-                        d="M504.1,256C504.1,119,393,7.9,256,7.9C119,7.9,7.9,119,7.9,256C7.9,393,119,504.1,256,504.1C393,504.1,504.1,393,504.1,256z" />
-                    <path fill="#FFF"
-                        d="M285,256l72.5-84.2c7.9-9.2,6.9-23-2.3-31c-9.2-7.9-23-6.9-30.9,2.3L256,222.4l-68.2-79.2c-7.9-9.2-21.8-10.2-31-2.3c-9.2,7.9-10.2,21.8-2.3,31L227,256l-72.5,84.2c-7.9,9.2-6.9,23,2.3,31c4.1,3.6,9.2,5.3,14.3,5.3c6.2,0,12.3-2.6,16.6-7.6l68.2-79.2l68.2,79.2c4.3,5,10.5,7.6,16.6,7.6c5.1,0,10.2-1.7,14.3-5.3c9.2-7.9,10.2-21.8,2.3-31L285,256z" />
+                <svg class="dp" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Outer glow effect -->
+                  <circle cx="90" cy="75" r="55" fill="none" stroke="#4cc9f0" stroke-width="2" opacity="0.2"/>
+                  
+                  <!-- Main circle with gradient -->
+                  <circle cx="90" cy="75" r="50" fill="#1E1E3A" stroke="#4cc9f0" stroke-width="3"/>
+                  
+                  <!-- Luna crescent moon shape with refined curves -->
+                  <path d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z" fill="#4cc9f0"/>
+                  
+                  <!-- Refined sparkles - small glowing dots with rays -->
+                  <!-- Sparkle 1 -->
+                  <circle cx="150" cy="40" r="1" fill="#ffffff" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="148" y1="40" x2="152" y2="40" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+                  <line x1="150" y1="38" x2="150" y2="42" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+                  
+                  <!-- Sparkle 2 -->
+                  <circle cx="160" cy="50" r="0.8" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="159" y1="50" x2="161" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  <line x1="160" y1="49" x2="160" y2="51" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  
+                  <!-- Sparkle 3 -->
+                  <circle cx="145" cy="60" r="1.2" fill="#ffffff" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="143" y1="60" x2="147" y2="60" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+                  <line x1="145" y1="58" x2="145" y2="62" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+                  
+                  <!-- Additional sparkles with subtle rays -->
+                  <circle cx="130" cy="45" r="0.7" fill="#ffffff" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.7;0.2" dur="5s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="129" y1="45" x2="131" y2="45" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+                  <line x1="130" y1="44" x2="130" y2="46" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+                  
+                  <circle cx="165" cy="70" r="0.9" fill="#ffffff" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <line x1="164" y1="70" x2="166" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  <line x1="165" y1="69" x2="165" y2="71" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+                  
+                  <!-- Sound wave lines with animated pulse effect -->
+                  <path d="M150 75h30" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M145 55h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M145 95h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.6s" repeatCount="indefinite"/>
+                  </path>
+                  
+                  <!-- Dots at the ends with pulse effect -->
+                  <circle cx="190" cy="55" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="190" cy="95" r="4" fill="#4cc9f0">
+                    <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/>
+                  </circle>
+                  
+                  <!-- Text "LUNA" with enhanced style -->
+                  <text x="220" y="85" font-family="Inter, sans-serif" font-size="50" font-weight="700" fill="#ffffff">
+                    LUN<tspan fill="#4cc9f0">A</tspan>
+                  </text>
+                  
+                  <!-- Text "AI ASSISTANT" with subtle gradient -->
+                  <text x="220" y="115" font-family="Inter, sans-serif" font-size="20" font-weight="400" fill="#4cc9f0">
+                    AI ASSISTANT
+                  </text>
+                  
+                  <!-- Decorative circuit-like patterns -->
+                  <path d="M350 40 L370 40 L370 60" fill="none" stroke="#4cc9f0" stroke-width="1" opacity="0.3"/>
+                  <path d="M330 110 L350 110 L350 90" fill="none" stroke="#4cc9f0" stroke-width="1" opacity="0.3"/>
+                  <circle cx="370" cy="60" r="3" fill="#4cc9f0" opacity="0.3"/>
+                  <circle cx="350" cy="90" r="3" fill="#4cc9f0" opacity="0.3"/>
+                  
+                  <!-- Additional circuit elements -->
+                  <path d="M365 115 L385 115 L385 95" fill="none" stroke="#4cc9f0" stroke-width="1" opacity="0.3"/>
+                  <circle cx="385" cy="95" r="3" fill="#4cc9f0" opacity="0.3"/>
                 </svg>
+                
+                <div class="closeBTN" onclick="closeFullDP()">
+                    <i class="fas fa-times"></i>
+                </div>
             </div>
         </div>
 
+        <!-- Chat messages container -->
         <div id="chatting" class="chatting">
             <ul id="listUL">
+                <!-- Messages will be added here dynamically -->
             </ul>
         </div>
     </div>
 
-
+    <!-- Footer with input -->
     <footer>
         <div class="sendBar">
-            <input id="inputMSG" onkeypress="isEnter(event)" type="text" placeholder="Type a message" autofocus>
-            <svg onclick="sendMsg()" viewBox="0 0 24 24" width="24" height="24" class="">
-                <path fill="currentColor"
-                    d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path>
-            </svg>
+            <input id="inputMSG" onkeypress="isEnter(event)" type="text" placeholder="Type a message to Luna..." autofocus>
+            <div class="send-button" onclick="sendMsg()">
+                <i class="fas fa-paper-plane"></i>
+            </div>
         </div>
     </footer>
-<script>
-    var audio = new Audio('assets/sentmessage.mp3');
-    var contactString = "<div class='social'> <a target='_blank' href='tel:+916363549133'> <div class='socialItem' id='call'><img class='socialItemI' src='images/phone.svg'/><label class='number'></label></label></div> </a> <a href='mailto:varshithvh@gmail.com'> <div class='socialItem'><img class='socialItemI' src='images/gmail.svg' alt=''></div> </a> <a target='_blank' href='https://github.com/Varshithvhegde'> <div class='socialItem'><img class='socialItemI' src='images/github.svg' alt=''></div> </a> <a target='_blank' href='https://wa.me/916363549133'> <div class='socialItem'><img class='socialItemI' src='images/whatsapp.svg' alt=''>";
-    var resumeString = "<img src='images/resume_thumbnail.png' class='resumeThumbnail'><div class='downloadSpace'><div class='pdfname'><img src='images/pdf.png'><label>Varshith V Hegde Resume.pdf</label></div><a href='assets/varshith_v_hegde_resume.pdf' download='varshith_v_hegde_resume.pdf'><img class='download' src='images/downloadIcon.svg'></a></div>";
-    var addressString = "<div class='mapview'><iframe src='https://www.google.com/maps/dir//Moodbidri+private+Bus+Stand,+Bus+Stand+Rd,+Mudbidri,+Karnataka+574227/@13.0639,74.9991985,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3ba4ab3d49331379:0x17be05cb5b69caa2!2m2!1d74.9957298!2d13.0680955?hl=en' class='map'></iframe></div><label class='add'><address>B2 'Asara'<br>Kodoli<br>Kolhapur, Maharashtra, INDIA 416114</address>";
-    
-    function startFunction() {
-        setLastSeen();
-        waitAndResponce("intro");
-    }
-    
-    function setLastSeen() {
-        var date = new Date();
-        var lastSeen = document.getElementById("lastseen");
-        lastSeen.innerText = "last seen today at " + date.getHours() + ":" + date.getMinutes()
-    }
-    
-    
-    function closeFullDP() {
-        var x = document.getElementById("fullScreenDP");
-        if (x.style.display === 'flex') {
-            x.style.display = 'none';
-        } else {
-            x.style.display = 'flex';
+
+    <script>
+        var audio = new Audio('assets/sentmessage.mp3');
+        var contactString = "<div class='social'> <a target='_blank' href='tel:+916363549133'> <div class='socialItem' id='call'><img class='socialItemI' src='images/phone.svg'/><label class='number'></label></label></div> </a> <a href='mailto:varshithvh@gmail.com'> <div class='socialItem'><img class='socialItemI' src='images/gmail.svg' alt=''></div> </a> <a target='_blank' href='https://github.com/Varshithvhegde'> <div class='socialItem'><img class='socialItemI' src='images/github.svg' alt=''></div> </a> <a target='_blank' href='https://wa.me/916363549133'> <div class='socialItem'><img class='socialItemI' src='images/whatsapp.svg' alt=''>";
+        var resumeString = "<img src='images/resume_thumbnail.png' class='resumeThumbnail'><div class='downloadSpace'><div class='pdfname'><img src='images/pdf.png'><label>Varshith V Hegde Resume.pdf</label></div><a href='assets/varshith_v_hegde_resume.pdf' download='varshith_v_hegde_resume.pdf'><img class='download' src='images/downloadIcon.svg'></a></div>";
+        var addressString = "<div class='mapview'><iframe src='https://www.google.com/maps/dir//Moodbidri+private+Bus+Stand,+Bus+Stand+Rd,+Mudbidri,+Karnataka+574227/@13.0639,74.9991985,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3ba4ab3d49331379:0x17be05cb5b69caa2!2m2!1d74.9957298!2d13.0680955?hl=en' class='map'></iframe></div><label class='add'><address>B2 'Asara'<br>Kodoli<br>Kolhapur, Maharashtra, INDIA 416114</address>";
+        
+        function startFunction() {
+            setLastSeen();
+            waitAndResponce("intro");
         }
-    }
-    
-    function openFullScreenDP() {
-        var x = document.getElementById("fullScreenDP");
-        if (x.style.display === 'flex') {
-            x.style.display = 'none';
-        } else {
-            x.style.display = 'flex';
+        
+        function setLastSeen() {
+            var date = new Date();
+            var lastSeen = document.getElementById("lastseen");
+            lastSeen.innerText = "Online now | " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
         }
-    }
-    
-    
-    function isEnter(event) {
-        if (event.keyCode == 13) {
-            sendMsg();
-        }
-    }
-    
-    function sendMsg() {
-        var input = document.getElementById("inputMSG");
-        var ti = input.value;
-        if (input.value == "") {
-            return;
-        }
-        var date = new Date();
-        var myLI = document.createElement("li");
-        var myDiv = document.createElement("div");
-        var greendiv = document.createElement("div");
-        var dateLabel = document.createElement("label");
-        dateLabel.innerText = date.getHours() + ":" + date.getMinutes();
-        myDiv.setAttribute("class", "sent");
-        greendiv.setAttribute("class", "green");
-        dateLabel.setAttribute("class", "dateLabel");
-        greendiv.innerText = input.value;
-        myDiv.appendChild(greendiv);
-        myLI.appendChild(myDiv);
-        greendiv.appendChild(dateLabel);
-        document.getElementById("listUL").appendChild(myLI);
-        var s = document.getElementById("chatting");
-        s.scrollTop = s.scrollHeight;
-        setTimeout(function () { waitAndResponce(ti) }, 1500);
-        input.value = "";
-        playSound();
-    }
-    
-    function waitAndResponce(inputText) {
-        var lastSeen = document.getElementById("lastseen");
-        lastSeen.innerText = "typing...";
-        var name="";
-        if(inputText.toLowerCase().includes("my name is")){
-            name=inputText.substring(inputText.indexOf("is")+2);
-            if(name.toLowerCase().includes("varshith")){
-                sendTextMessage("Ohh! That's my name too");
-                
+        
+        function closeFullDP() {
+            var x = document.getElementById("fullScreenDP");
+            if (x.style.display === 'flex') {
+                x.style.display = 'none';
+            } else {
+                x.style.display = 'flex';
             }
-            inputText="input";
         }
-        switch (inputText.toLowerCase().trim()) {
-            case "intro":
-                setTimeout(() => {
-                    sendTextMessage("Hello there 👋🏻,<br><br>Am your ..<span class='bold'><a class='alink'>BOTCODE</a>.</span><br><br>Am your Code Assistant..<span class='bold'>Botcode..👨🏻‍💻📚</span><br><br>Send <span class='bold'>'help'</span> to know more about me.<br>");
-                }, 2000);
-                break;
-            case "hi":
-                sendTextMessage("Hello..! Welcome to our Medical bot..");
-                break;
-            case "hello":
-                sendTextMessage("How are you...?");
-                break;
-            case "bye":ad
-                sendTextMessage("Thank You..   Bye...!");
-                break;
-    
-            case "help":
-                sendTextMessage("How can I help you?");
-                break;
-            
-            
-           
-            case "clear":
-                clearChat();
-                break;
-            // case "about":
-    
-            //     break;
-            
-            
-            case "time":
-                var date = new Date();
-                sendTextMessage("NoW the time is " + date.getHours() + ":" + date.getMinutes());
-                break;
-    
-            case "date":
-                var date = new Date();
-                sendTextMessage("Current date is " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear());
-                break;
-    
-            case "hai":
-                sendTextMessage("Hello there 👋🏻");
-                sendTextMessage("<span class='sk'>Send Keyword to get what you want to know about Botcode...<br>e.g<br><span class='bold'>'skills'</span> - to know my skills<br><span class='bold'>'resume'</span> - to get my resume<br><span class='bold'>'education'</span> - to get my education details<br><span class='bold'>'contact'</span> - to get ways to connect with me<br><span class='bold'>'projects'</span> - to get details of my projects<br><span class='bold'>'clear'</span> - to clear conversation<br>");
-                break;
-            case "hello":
-                sendTextMessage("Hello there 👋🏻");
-                sendTextMessage("<span class='sk'>Send Keyword to get what you want to know about me...<br>e.g<br><span class='bold'>'skills'</span> - to know my skills<br><span class='bold'>'resume'</span> - to get my resume<br><span class='bold'>'education'</span> - to get my education details<br><span class='bold'>'contact'</span> - to get ways to connect with me<br><span class='bold'>'projects'</span> - to get details of my projects<br><span class='bold'>'clear'</span> - to clear conversation<br>");
-                break;
-            
-            default:
-                setTimeout(() => {
-                    sendTextMessage("Hey I couldn't catch you...😢<br>Send 'help' to know more about usage.");
-                }, 2000);
-                break;
+        
+        function openFullScreenDP() {
+            var x = document.getElementById("fullScreenDP");
+            if (x.style.display === 'flex') {
+                x.style.display = 'none';
+            } else {
+                x.style.display = 'flex';
+            }
         }
-    
-    
-    
-    }
-    
-    
-    function clearChat() {
-        document.getElementById("listUL").innerHTML = "";
-        waitAndResponce('intro');
-    }
-    
-    
-    
-    function sendTextMessage(textToSend) {
-        setTimeout(setLastSeen, 1000);
-        var date = new Date();
-        var myLI = document.createElement("li");
-        var myDiv = document.createElement("div");
-        var greendiv = document.createElement("div");
-        var dateLabel = document.createElement("label");
-        dateLabel.setAttribute("id", "sentlabel");
-        dateLabel.id = "sentlabel";
-        dateLabel.innerText = date.getHours() + ":" + date.getMinutes();
-        myDiv.setAttribute("class", "received");
-        greendiv.setAttribute("class", "grey");
-        greendiv.innerHTML = textToSend;
-        myDiv.appendChild(greendiv);
-        myLI.appendChild(myDiv);
-        greendiv.appendChild(dateLabel);
-        document.getElementById("listUL").appendChild(myLI);
-        var s = document.getElementById("chatting");
-        s.scrollTop = s.scrollHeight;
-        playSound();
-    }
-    
-    
-    function sendResponse() {
-        setTimeout(setLastSeen, 1000);
-        var date = new Date();
-        var myLI = document.createElement("li");
-        var myDiv = document.createElement("div");
-        var greendiv = document.createElement("div");
-        var dateLabel = document.createElement("label");
-        dateLabel.innerText = date.getHours() + ":" + date.getMinutes();
-        myDiv.setAttribute("class", "received");
-        greendiv.setAttribute("class", "grey");
-        dateLabel.setAttribute("class", "dateLabel");
-        greendiv.innerText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ";
-        myDiv.appendChild(greendiv);
-        myLI.appendChild(myDiv);
-        greendiv.appendChild(dateLabel);
-        document.getElementById("listUL").appendChild(myLI);
-        var s = document.getElementById("chatting");
-        s.scrollTop = s.scrollHeight;
-        playSound();
-    }
-    
-    function playSound() {
-        audio.play();
-    }
-    
-</script>
-
+        
+        function isEnter(event) {
+            if (event.keyCode == 13) {
+                sendMsg();
+            }
+        }
+        
+        function sendMsg() {
+            var input = document.getElementById("inputMSG");
+            var ti = input.value;
+            if (input.value == "") {
+                return;
+            }
+            var date = new Date();
+            var myLI = document.createElement("li");
+            var myDiv = document.createElement("div");
+            var greendiv = document.createElement("div");
+            var dateLabel = document.createElement("label");
+            dateLabel.innerText = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+            myDiv.setAttribute("class", "sent");
+            greendiv.setAttribute("class", "green");
+            dateLabel.setAttribute("class", "dateLabel");
+            greendiv.innerText = input.value;
+            myDiv.appendChild(greendiv);
+            myLI.appendChild(myDiv);
+            greendiv.appendChild(dateLabel);
+            document.getElementById("listUL").appendChild(myLI);
+            var s = document.getElementById("chatting");
+            s.scrollTop = s.scrollHeight;
+            setTimeout(function () { waitAndResponce(ti) }, 1500);
+            input.value = "";
+            playSound();
+        }
+        
+        function waitAndResponce(inputText) {
+            var lastSeen = document.getElementById("lastseen");
+            lastSeen.innerText = "typing...";
+            var name="";
+            if(inputText.toLowerCase().includes("my name is")){
+                name=inputText.substring(inputText.indexOf("is")+2);
+                if(name.toLowerCase().includes("varshith")){
+                    sendTextMessage("Ohh! That's my creator's name!");
+                }
+                inputText="input";
+            }
+            switch (inputText.toLowerCase().trim()) {
+                case "intro":
+                    setTimeout(() => {
+                        sendTextMessage("Hello there 👋🏻,<br><br>I'm <span class='bold'><a class='alink'>LUNA</a></span>, your AI Code Assistant.<br><br>I'm here to help with your programming needs <span class='bold'>24/7 👨🏻‍💻✨</span><br><br>Send <span class='bold'>'help'</span> to learn more about what I can do for you.<br>");
+                    }, 2000);
+                    break;
+                case "hi":
+                    sendTextMessage("Hello! Welcome to Luna AI Assistant. How can I help with your code today?");
+                    break;
+                case "hello":
+                    sendTextMessage("Hi there! How are you doing today?");
+                    break;
+                case "bye":
+                    sendTextMessage("Thank you for chatting with Luna! Have a great day!");
+                    break;
+                case "help":
+                    sendTextMessage("<span class='sk'>I can assist you with:<br><br><span class='bold'>• Code generation</span> - Create code in various languages<br><span class='bold'>• Debugging</span> - Find and fix errors in your code<br><span class='bold'>• Explanations</span> - Learn concepts and understand code<br><span class='bold'>• Optimizations</span> - Improve your existing code<br><span class='bold'>• Examples</span> - See practical code examples<br><br>Just ask me anything code-related!</span>");
+                    break;
+                case "clear":
+                    clearChat();
+                    break;
+                case "time":
+                    var date = new Date();
+                    sendTextMessage("Current time is " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes());
+                    break;
+                case "date":
+                    var date = new Date();
+                    sendTextMessage("Today's date is " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+                    break;
+                case "hai":
+                case "hey":
+                    sendTextMessage("Hey there! 👋 How can Luna help you with coding today?");
+                    sendTextMessage("<span class='sk'>Send a keyword to learn more about Luna...<br>e.g.<br><span class='bold'>'features'</span> - to know what I can do<br><span class='bold'>'languages'</span> - to see supported programming languages<br><span class='bold'>'examples'</span> - to see code examples<br><span class='bold'>'help'</span> - for general assistance<br><span class='bold'>'clear'</span> - to clear conversation<br></span>");
+                    break;
+                default:
+                    setTimeout(() => {
+                        sendTextMessage("I'm not sure I understand. Could you try rephrasing or send 'help' to see what I can do for you.");
+                    }, 2000);
+                    break;
+            }
+        }
+        
+        function clearChat() {
+            document.getElementById("listUL").innerHTML = "";
+            waitAndResponce('intro');
+        }
+        
+        function sendTextMessage(textToSend) {
+            setTimeout(setLastSeen, 1000);
+            var date = new Date();
+            var myLI = document.createElement("li");
+            var myDiv = document.createElement("div");
+            var greendiv = document.createElement("div");
+            var dateLabel = document.createElement("label");
+            dateLabel.setAttribute("id", "sentlabel");
+            dateLabel.id = "sentlabel";
+            dateLabel.innerText = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+            myDiv.setAttribute("class", "received");
+            greendiv.setAttribute("class", "grey");
+            greendiv.innerHTML = textToSend;
+            myDiv.appendChild(greendiv);
+            myLI.appendChild(myDiv);
+            greendiv.appendChild(dateLabel);
+            document.getElementById("listUL").appendChild(myLI);
+            var s = document.getElementById("chatting");
+            s.scrollTop = s.scrollHeight;
+            playSound();
+        }
+        
+        function playSound() {
+            audio.play();
+        }
+    </script>
 </body>
-
 </html>

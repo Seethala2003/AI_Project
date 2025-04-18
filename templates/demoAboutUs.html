@@ -1,463 +1,639 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="icon" href="/static/GPN-LogoNew.png">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <!--Bootstrap-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--Font-Awsome-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Google Icons-->
-    <title>Voice Assistant - Home</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna - About Us</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121a35;
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            background-color: rgba(15, 22, 41, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 90%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .logo-svg {
+            height: 50px;
+            width: 150px;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links a:before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #4cc9f0, #0dc2e2, #1e88e5);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-links a:hover:before {
+            opacity: 1;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(13, 194, 226, 0.3);
+        }
+        
+        .hero {
+            position: relative;
+            padding: 180px 0 100px;
+            text-align: center;
+            background: linear-gradient(to right, rgba(15, 22, 41, 0.9), rgba(18, 26, 53, 0.9));
+            overflow: hidden;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(76, 201, 240, 0.5);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #4cc9f0, #1e88e5);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(13, 194, 226, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(13, 194, 226, 0.6);
+        }
+        
+        .about-section {
+            padding: 100px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(to right, #ffffff, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #4cc9f0, #1e88e5);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .about-text p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .about-image:hover img {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(13, 194, 226, 0.3);
+        }
+        
+        .glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(76, 201, 240, 0.2) 0%, rgba(18, 26, 53, 0) 70%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .features {
+            background-color: rgba(15, 22, 41, 0.7);
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .features:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(76, 201, 240, 0.1), transparent 70%);
+        }
+        
+        .feature-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(30, 136, 229, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .feature-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(76, 201, 240, 0.05), rgba(30, 136, 229, 0.05));
+            z-index: -1;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        
+        .feature-card:hover:before {
+            opacity: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(76, 201, 240, 0.5);
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 25px;
+            color: #4cc9f0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feature-icon:after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76, 201, 240, 0.2), transparent 70%);
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .feature-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: #e0e0e0;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        
+        .robot-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder/1000/1000');
+            background-position: center;
+            background-size: cover;
+            opacity: 0.03;
+            z-index: -1;
+        }
+        
+        footer {
+            background-color: #0f1629;
+            padding: 50px 5% 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4cc9f0, #1e88e5);
+            color: white;
+            text-decoration: none;
+            line-height: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(13, 194, 226, 0.4);
+        }
+        
+        .copyright {
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        /* Custom Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 3s infinite ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+                width: calc(100% - 40px);
+            }
+            
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+            
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero p {
+                font-size: 1.1em;
+            }
+            
+            .about-content, .feature-container {
+                flex-direction: column;
+            }
+            
+            .feature-card {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
-<style>
-    .btn {
-        transition: all ease-in-out 0.5s;
-    }
+<body>
+    <div class="robot-bg"></div>
 
-    @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    <div class="navbar">
+        <div class="logo">
+            <svg class="logo-svg" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+              <!-- Outer glow effect -->
+              <circle cx="90" cy="75" r="55" fill="none" stroke="#4cc9f0" stroke-width="2" opacity="0.2"/>
+              
+              <!-- Main circle with gradient -->
+              <circle cx="90" cy="75" r="50" fill="#242442" stroke="#4cc9f0" stroke-width="3"/>
+              
+              <!-- Luna crescent moon shape with refined curves -->
+              <path d="M90 30c-25 0-45 20-45 45s20 45 45 45c9 0 17.4-2.7 24.3-7.3C94.5 106.5 80 92.5 80 75c0-17.5 14.5-31.5 34.3-37.7C107.4 32.7 99 30 90 30z" fill="#4cc9f0"/>
+              
+              <!-- Refined sparkles - small glowing dots with rays -->
+              <!-- Sparkle 1 -->
+              <circle cx="150" cy="40" r="1" fill="#ffffff" opacity="0.9">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="148" y1="40" x2="152" y2="40" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+              <line x1="150" y1="38" x2="150" y2="42" stroke="#ffffff" stroke-width="0.5" opacity="0.7"/>
+              
+              <!-- Sparkle 2 -->
+              <circle cx="160" cy="50" r="0.8" fill="#ffffff" opacity="0.8">
+                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="159" y1="50" x2="161" y2="50" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+              <line x1="160" y1="49" x2="160" y2="51" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+              
+              <!-- Sparkle 3 -->
+              <circle cx="145" cy="60" r="1.2" fill="#ffffff" opacity="0.7">
+                <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="143" y1="60" x2="147" y2="60" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+              <line x1="145" y1="58" x2="145" y2="62" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+              
+              <!-- Additional sparkles with subtle rays -->
+              <circle cx="130" cy="45" r="0.7" fill="#ffffff" opacity="0.6">
+                <animate attributeName="opacity" values="0.2;0.7;0.2" dur="5s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="129" y1="45" x2="131" y2="45" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+              <line x1="130" y1="44" x2="130" y2="46" stroke="#ffffff" stroke-width="0.3" opacity="0.4"/>
+              
+              <circle cx="165" cy="70" r="0.9" fill="#ffffff" opacity="0.8">
+                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4.2s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="164" y1="70" x2="166" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+              <line x1="165" y1="69" x2="165" y2="71" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+              
+              <!-- Sound wave lines with animated pulse effect -->
+              <path d="M150 75h30" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <path d="M145 55h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
+              </path>
+              <path d="M145 95h40" stroke="#4cc9f0" stroke-width="3" stroke-linecap="round">
+                <animate attributeName="opacity" values="0.7;1;0.7" dur="1.6s" repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Dots at the ends with pulse effect -->
+              <circle cx="190" cy="55" r="4" fill="#4cc9f0">
+                <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="190" cy="95" r="4" fill="#4cc9f0">
+                <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Text "LUNA" with enhanced style -->
+              <text x="220" y="85" font-family="Poppins, sans-serif" font-size="50" font-weight="700" fill="#ffffff">
+                LUN<tspan fill="#4cc9f0">A</tspan>
+              </text>
+              
+              <!-- Text "AI ASSISTANT" with subtle gradient -->
+              <text x="220" y="115" font-family="Poppins, sans-serif" font-size="20" font-weight="400" fill="#4cc9f0">
+                AI ASSISTANT
+              </text>
+            </svg>
+        </div>
+        <div class="nav-links">
+            <a href="/home">Home</a>
+            <a href="/chat">Chat</a>
+            <a href="/aboutus">About Us</a>
+        </div>
+    </div>
 
-    /* * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    } */
+    <div class="hero">
+        <div class="particles">
+            <!-- JS will insert particles here -->
+        </div>
+        <div class="hero-content">
+            <h1>About LUNA Voice Assistant</h1>
+            <p>An intelligent AI companion designed to transform how you interact with technology, providing seamless assistance for your daily tasks and queries.</p>
+            <a href="/home" class="btn">Try LUNA Now</a>
+        </div>
+    </div>
 
-    body {
-        font-family: 'Montserrat', sans-serif;
-        background-color:rgb(46, 10, 91);
-        color: #126e82;
-    }
-
-    .containerText {
-        font-family: 'Montserrat', sans-serif;
-        height: 100;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .containerText p {
-        font-size: 40;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        text-align: center;
-        overflow: hidden;
-    }
-
-    .containerText p span.typed-text {
-        font-weight: bold;
-        font-size: large;
-        color: #e84545;
-    }
-
-    .containerText p span.cursor {
-        display: inline-block;
-        background-color: #ccc;
-        margin-left: 0.1rem;
-        width: 3px;
-        animation: blink 1s infinite;
-    }
-
-    .containerText p span.cursor.typing {
-        animation: none;
-    }
-
-    @keyframes blink {
-        0% {
-            background-color: #ccc;
-        }
-
-        49% {
-            background-color: #ccc;
-        }
-
-        50% {
-            background-color: transparent;
-        }
-
-        99% {
-            background-color: transparent;
-        }
-
-        100% {
-            background-color: #ccc;
-        }
-    }
-
-    /*FOOTER*/
-
-    footer {
-        background: #16222A;
-        background: -webkit-linear-gradient(59deg, #3A6073, #16222A);
-        background: linear-gradient(59deg, #3A6073, #16222A);
-        color: white;
-        margin-top: 70px;
-        font-size: 40;
-        /* padding-top: 0.3rem; */
-        padding-bottom: 0.5;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        text-align: center;
-        overflow: hidden;
-    }
-
-
-
-    footer a {
-        color: #fff;
-        font-size: 14px;
-        transition-duration: 0.2s;
-    }
-
-    footer a:hover {
-        color: #FA944B;
-        text-decoration: none;
-    }
-
-    .copy {
-        font-size: 12px;
-        padding: auto;
-        padding-left: auto;
-        position: absolute;
-        bottom: 0;
-        border-top: 1px solid #FFFFFF;
-    }
-
-    .footer-middle {
-        padding-top: 2em;
-        color: white;
-    }
-
-
-    /*SOCİAL İCONS*/
-
-    /* footer social icons */
-
-    ul.social-network {
-        list-style: none;
-        display: inline;
-        margin-left: 0 !important;
-        padding: 0;
-    }
-
-    ul.social-network li {
-        display: inline;
-        margin: 0 5px;
-    }
-
-
-    /* footer social icons */
-
-    .social-network a.icoFacebook:hover {
-        background-color: #3B5998;
-    }
-
-    .social-network a.icoLinkedin:hover {
-        background-color: #007bb7;
-    }
-
-    .social-network a.icoInstagram:hover {
-        background: #f09433;
-        background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f09433', endColorstr='#bc1888', GradientType=1);
-
-    }
-
-    .social-network a.icoGitHub:hover {
-        background-color: #333;
-    }
-
-    .social-network a.icoFacebook:hover i,
-    .social-network a.icoLinkedin:hover i,
-    .social-network a.icoInstagram:hover i,
-    .social-network a.icoGitHub:hover i {
-        color: #fff;
-    }
-
-    .social-network a.socialIcon:hover,
-    .socialHoverClass {
-        color: #44BCDD;
-    }
-
-    .social-circle li a {
-        display: inline-block;
-        position: relative;
-        margin: 0 auto 0 auto;
-        -moz-border-radius: 50%;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        text-align: center;
-        width: 30px;
-        height: 30px;
-        font-size: 15px;
-    }
-
-    .social-circle li i {
-        margin: 0;
-        line-height: 30px;
-        text-align: center;
-    }
-
-    .social-circle li a:hover i,
-    .triggeredHover {
-        -moz-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        -ms--transform: rotate(360deg);
-        transform: rotate(360deg);
-        -webkit-transition: all 0.2s;
-        -moz-transition: all 0.2s;
-        -o-transition: all 0.2s;
-        -ms-transition: all 0.2s;
-        transition: all 0.2s;
-    }
-
-    .social-circle i {
-        color: #595959;
-        -webkit-transition: all 0.8s;
-        -moz-transition: all 0.8s;
-        -o-transition: all 0.8s;
-        -ms-transition: all 0.8s;
-        transition: all 0.8s;
-    }
-
-    .social-network a {
-        background-color: #F9F9F9;
-    }
-
-    /* ----------------- GLOWING TEXT EFFECT ----------------------- */
-    .glow {
-        font-size: 30px;
-        color: #ec3636;
-        text-align: center;
-        animation: glow 1s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00e6ad, 0 0 20px #00e6ad, 0 0 25px #00e6ad, 0 0 30px #00e6ad, 0 0 35px #00e6ad;
-        }
-
-        to {
-            text-shadow: 0 0 10px #fff, 0 0 15px #ffc93c, 0 0 20px #ffc93c, 0 0 25px #ffc93c, 0 0 30px #ffc93c, 0 0 35px #ffc93c, 0 0 40px #ffc93c;
-        }
-    }
-
-
-    /* ----------------- GLOWING IMAGE EFFECT ----------------------- */
-
-    
-</style>
-<style>
-    * {
-      box-sizing: border-box;
-    }
-    
-  
-    
-    #myVideo {
-      position: fixed;
-      width:100%;
-      height:100%;
-    }
-    
-    .content {
-      position: fixed;
-      bottom: 300px;
-    
-      width: 100%;
-      
-      padding: 20px;
-    }
-
-    .footer {
-        position: fixed;
-        bottom: 300px;
-        background: rgba(0, 0, 0, 0.5);
-        color: #f1f1f1;
-        width: 100%;
-        padding: 20px;
-      }
-    
-    #myBtn {
-      width: 200px;
-      font-size: 18px;
-      padding: 10px;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-    }
-    
-    #myBtn:hover {
-      background: #ddd;
-      color: black;
-    }
-</style>
-<body style=>
-    <!-- <nav class="navbar navbar-dark bg-primary" style="background-color: #47a7ec; color: white;">
-        </nav> -->
-    <!-- <center> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffc93c; color: white; ">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-    
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/"><button
-                                    class="btn btn-outline-primary">Home</button></a>
-                        </li>
-    
-                       
-    
-                        <li class="nav-item">
-                            <form action="/aboutus" method="POST">
-                                <a class="nav-link" href="/aboutus"><button class="btn btn-outline-primary">About
-                                        Us</button></a>
-                            </form>
-                            <!--Project Group Info-->
-                        </li>
-                        <li class="nav-item">
-                            <form action="/chat" method="POST">
-                                <a class="nav-link" href="/chat"><button class="btn btn-outline-primary">Chat</button></a>
-                            </form>
-                            <!--Project Group Info-->
-                        </li>
-                        
-                    </ul>
-                </div>
+    <div class="about-section">
+        <h2 class="section-title">Our Mission</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>LUNA is a cutting-edge AI voice assistant designed to transform the way you interact with technology. Our mission is to create the most intuitive, helpful, and personalized AI assistant that understands your needs and responds naturally.</p>
+                <p>We've built LUNA to be more than just a tool – it's a companion that learns from your interactions, anticipates your needs, and provides timely assistance whether you're at home, at work, or on the go.</p>
+                <p>With advanced natural language processing and machine learning capabilities, LUNA can communicate with users through text or voice and can be integrated into websites, applications, or even physical devices.</p>
             </div>
-        </nav>
-   
-    <div id="myVideo" style="">
-        <video id="myVideo" poster="{{ url_for('static', filename='poster.JPG') }}" autoplay muted loop>
-          <source src="{{ url_for('static', filename='video1.mp4') }}" type="video/mp4">
-        </video>
-      </div>
-    <!-- Typing Effect -->
-
-    <div class="containerText" class="content">
-        <p>
-            <!-- <any Static Words Here> --> <span class="typed-text"></span><span class="cursor">&nbsp;</span>
-        </p>
+            <div class="about-image">
+                <div class="glow"></div>
+                <img src="/api/placeholder/500/500" alt="AI Interface Visualization">
+            </div>
+        </div>
     </div>
 
-
-    <div  class="content" style="text-align: center;">
-        <h2 style="font-family: Helvetica, Arial; font-weight: 600;">
-            <!--Welcome {{userName}} !!-->
-        </h2>
-
-        <!--Retrive username from demoApp.py and display in for both user commands and computer return statement-->
-
-        <a href="#" class="icoMic" title="Mic" target="_blank"><i class="fa fa-mic"></i></a>
-       
-
-        <br>
-       
-       
-        <!--  -->
-        <p class="glow" class="content"> An AI assistant bot is a software application powered by artificial intelligence designed to help users with various tasks, provide information, or automate processes. These bots can communicate with users through text or voice and can be integrated into websites, applications, or even physical devices. They use  to understand and respond to user input in a conversational manner.</p><br
-
-        
+    <div class="features">
+        <h2 class="section-title">What Makes Us Different</h2>
+        <div class="feature-container">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microphone-alt"></i></div>
+                <h3 class="feature-title">Natural Voice Interaction</h3>
+                <p>Speak naturally to LUNA and receive human-like responses with our advanced voice recognition and synthesis technology that understands context and nuance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="feature-title">Intelligent Learning</h3>
+                <p>LUNA learns from each interaction to better understand your preferences and provide more personalized assistance over time, adapting to your unique needs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-project-diagram"></i></div>
+                <h3 class="feature-title">Seamless Integration</h3>
+                <p>Easily integrate LUNA with your favorite apps, smart home devices, and digital services for a unified experience that works wherever you need it.</p>
+            </div>
+        </div>
     </div>
-    
-      
-      
 
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">© 2025 LUNA AI Assistant. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <!-- </center> -->
-
-
-
-
-    <!-- FOOTER HTML/CSS -->
-    
-
-
-    <!-- END OF FOOTER -->
     <script>
-        var video = document.getElementById("myVideo");
-        var btn = document.getElementById("myBtn");
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 15 + 5;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 20 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.boxShadow = `0 0 ${size/2}px rgba(76, 201, 240, 0.5)`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
         
-        function myFunction() {
-          if (video.paused) {
-            video.play();
-            btn.innerHTML = "Pause";
-          } else {
-            video.pause();
-            btn.innerHTML = "Play";
-          }
-        }
-        </script>
-
-    <script>
-        const typedTextSpan = document.querySelector(".typed-text");
-        const cursorSpan = document.querySelector(".cursor");
-
-        const textArray = ["Welcome {{userName}} !!", "Welcome To Voice Assistant", "Check out Commands", "Enjoy !!", "Developed By - Our Team :)"];
-        const typingDelay = 100;
-        const erasingDelay = 70;
-        const newTextDelay = 1800; // Delay between current and next text
-        let textArrayIndex = 0;
-        let charIndex = 0;
-
-        function type() {
-            if (charIndex < textArray[textArrayIndex].length) {
-                if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, typingDelay);
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 5%';
+                navbar.style.backgroundColor = 'rgba(15, 22, 41, 0.95)';
+            } else {
+                navbar.style.padding = '12px 5%';
+                navbar.style.backgroundColor = 'rgba(15, 22, 41, 0.9)';
             }
-            else {
-                cursorSpan.classList.remove("typing");
-                setTimeout(erase, newTextDelay);
-            }
-        }
-
-        function erase() {
-            if (charIndex > 0) {
-                if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, erasingDelay);
-            }
-            else {
-                cursorSpan.classList.remove("typing");
-                textArrayIndex++;
-                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-                setTimeout(type, typingDelay + 1100);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () { // On DOM Load initiate the effect
-            if (textArray.length) setTimeout(type, newTextDelay + 250);
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
         });
     </script>
 </body>
-
 </html>
