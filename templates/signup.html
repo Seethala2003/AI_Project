@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Luna - Sign Up</title>
-    <link rel="icon" href="/static/GPN-LogoNew.png">
+    <link rel="icon" href="/static/images/favicon.png">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -431,7 +431,7 @@
                 <div>
                     <label id="error_message"></label>
                 </div>
-                <form method="POST" class="register-form" id="register-form">
+                <form method="POST" class="register-form" id="register-form" action="/register">
                     <div class="form-group">
                         <i class="fas fa-user"></i>
                         <input type="text" name="name" id="name" placeholder="Your Name" />
@@ -467,13 +467,13 @@
                     <div class="orb" style="width: 150px; height: 150px; background: rgba(76, 201, 240, 0.3); top: 20%; left: 10%; animation-duration: 15s;"></div>
                     <div class="orb" style="width: 100px; height: 100px; background: rgba(58, 134, 255, 0.3); bottom: 20%; right: 10%; animation-duration: 12s;"></div>
                 </div>
-                <img src="{{ url_for('static', filename= 'images/signup-image.jpg') }}" alt="sign up image">
+                <img src="/static/images/signup-image.jpg" alt="sign up image">
             </div>
         </div>
     </div>
 
     <!-- JS -->
-    <script src="{{ url_for('static', filename= 'vendor/jquery/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
     <script>
         // Create galaxy background
@@ -531,48 +531,57 @@
         });
 
         function register() {
-            if (($("#name").val() == '') || ($("#email").val() == "") ||
-                ($("#pass").val() == '') || ($("#repass").val() == "")) {
+    if (($("#name").val() == '') || ($("#email").val() == "") ||
+        ($("#pass").val() == '') || ($("#repass").val() == "")) {
 
-                $("#error_message").text("All fields are required");
+        $("#error_message").text("All fields are required");
+        $("#error_message").show(0).delay(3000).hide(0);
+    }
+    else if ($("#pass").val() != $("#repass").val()) {
+        $("#error_message").text("Passwords do not match");
+        $("#error_message").show(0).delay(3000).hide(0);
+    }
+    else {
+        // Change from FormData to JSON
+        var data = {
+            'name': $("#name").val(),
+            'email': $("#email").val(),
+            'pass': $("#pass").val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/signup',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                // Handle both JSON string and direct JSON object response
+                var data;
+                try {
+                    data = typeof response === 'string' ? JSON.parse(response) : response;
+                } catch (e) {
+                    data = response;
+                }
+                
+                if (data === true || data.success === true) {
+                    $('#signup_message').show(0).delay(3000).hide(0);
+
+                    setTimeout(function() {
+                        window.location = "/";
+                    }, 3000);
+
+                } else {
+                    $("#error_message").text("Email address already exists.");
+                    $("#error_message").show(0).delay(3000).hide(0);
+                }
+            },
+            error: function(xhr, status, error) {
+                $("#error_message").text("Registration failed. Please try again.");
                 $("#error_message").show(0).delay(3000).hide(0);
             }
-            else if ($("#pass").val() != $("#repass").val()) {
-                $("#error_message").text("Passwords do not match");
-                $("#error_message").show(0).delay(3000).hide(0);
-            }
-            else {
-                var data = new FormData();
-                data.append('name', $("#name").val());
-                data.append('email', $("#email").val());
-                data.append('pass', $("#pass").val());
-
-                $.ajax({
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    url: '/register',
-                    processData: false,
-                    cache: false,
-                    timeout: 800000,
-                    contentType: false,
-                    data: data,
-                    success: function(response) {
-                        var data = JSON.parse(response);
-                        if (data == true) {
-                            $('#signup_message').show(0).delay(3000).hide(0);
-
-                            setTimeout(function() {
-                                window.location = "/";
-                            }, 3000);
-
-                        } else {
-                            $("#error_message").text("Email address already exists.");
-                            $("#error_message").show(0).delay(3000).hide(0);
-                        }
-                    }
-                });
-            }
-        }
+        });
+    }
+}
     </script>
 </body>
 

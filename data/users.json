@@ -1,0 +1,11 @@
+{
+    "seethala": {
+        "email": "seethalasr@gmail.com",
+        "password": "12345",
+        "bmi_data": {
+            "height": 160.0,
+            "weight": 41.0
+        },
+        "preferences": {}
+    }
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy & Motivation | AI Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .energy-gauge {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 50%;
+            background: conic-gradient(#dc3545 0% 20%, #ffc107 20% 50%, #198754 50% 100%);
+        }
+        .energy-gauge::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        .energy-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 4px;
+            background-color: #000;
+            transform-origin: left center;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease-in-out;
+        }
+        .energy-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .motivation-card {
+            height: 100%;
+        }
+        .quotes-container {
+            padding: 20px 0;
+        }
+        .quote-item {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #0d6efd;
+        }
+        .task-suggestion {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #198754;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1>Energy & Motivation</h1>
+                <p>Track your energy level and get personalized motivation</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="/" class="btn btn-outline-secondary">Back to Home</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Energy Level Tracking -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Your Energy Level
+                    </div>
+                    <div class="card-body">
+                        <div class="energy-gauge">
+                            <div class="energy-needle" id="energy-needle"></div>
+                            <div class="energy-value" id="energy-value">5</div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="energy-slider" class="form-label">How's your energy today? (1-10)</label>
+                            <input type="range" class="form-range" min="1" max="10" step="1" id="energy-slider" value="5">
+                            <div class="d-flex justify-content-between">
+                                <span>Low Energy</span>
+                                <span>High Energy</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary mt-3 w-100" id="update-energy-btn">Update Energy Level</button>
+                    </div>
+                </div>
+                
+                <!-- Task Suggestions Based on Energy -->
+                <div class="card" id="task-suggestions-card" style="display: none;">
+                    <div class="card-header">
+                        Suggested Tasks For Your Energy Level
+                    </div>
+                    <div class="card-body">
+                        <div id="task-suggestions-container">
+                            <!-- Task suggestions will be inserted here -->
+                        </div>
+                        
+                        <a href="/tasks" class="btn btn-outline-primary mt-2">
+                            Go to Task Management
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <!-- Motivation Card -->
+                <div class="card motivation-card">
+                    <div class="card-header">
+                        Motivation For You
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info" id="motivation-message">
+                            Update your energy level to get personalized motivation!
+                        </div>
+                        
+                        <div class="quotes-container" id="quotes-container">
+                            <h5>Motivational Quotes</h5>
+                            <div class="quote-item">
+                                "The only way to do great work is to love what you do." - Steve Jobs
+                            </div>
+                            <div class="quote-item">
+                                "Don't watch the clock; do what it does. Keep going." - Sam Levenson
+                            </div>
+                            <div class="quote-item">
+                                "Small steps every day add up to big results."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial energy level (if stored)
+            let currentEnergy = 5;
+            
+            // Get elements
+            const energySlider = document.getElementById('energy-slider');
+            const energyValue = document.getElementById('energy-value');
+            const energyNeedle = document.getElementById('energy-needle');
+            const updateEnergyBtn = document.getElementById('update-energy-btn');
+            const motivationMessage = document.getElementById('motivation-message');
+            
+            // Function to update energy display
+            function updateEnergyDisplay(level) {
+                energyValue.textContent = level;
+                
+                // Calculate needle rotation (0 = -90deg, 10 = 90deg)
+                const rotation = -90 + (level - 1) * 18;  // 180 degrees / 10 steps = 18 degrees per step
+                energyNeedle.style.transform = `rotate(${rotation}deg)`;
+            }
+            
+            // Listen for slider changes
+            energySlider.addEventListener('input', function() {
+                updateEnergyDisplay(this.value);
+            });
+            
+            // Update energy level button
+            updateEnergyBtn.addEventListener('click', function() {
+                const newEnergy = energySlider.value;
+                
+                fetch('/energy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        level: newEnergy
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Update displayed energy
+                        currentEnergy = data.energy_level;
+                        updateEnergyDisplay(currentEnergy);
+                        
+                        // Update motivation message
+                        motivationMessage.textContent = data.motivation;
+                        
+                        // Show task suggestions if available
+                        if (data.tasks && data.tasks.length > 0) {
+                            showTaskSuggestions(data.tasks);
+                        }
+                    }
+                });
+            });
+            
+            // Function to display task suggestions
+            function showTaskSuggestions(tasks) {
+                const container = document.getElementById('task-suggestions-container');
+                container.innerHTML = '';
+                
+                tasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = 'task-suggestion';
+                    taskElement.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${task.name}</strong>
+                            <span class="badge ${getPriorityBadgeClass(task.priority)}">${task.priority}</span>
+                        </div>
+                        <small>Energy required: ${task.energy}/10</small>
+                    `;
+                    container.appendChild(taskElement);
+                });
+                
+                // Show the task suggestions card
+                document.getElementById('task-suggestions-card').style.display = 'block';
+            }
+            
+            // Helper function for priority badge classes
+            function getPriorityBadgeClass(priority) {
+                switch(priority) {
+                    case 'high': return 'bg-danger';
+                    case 'medium': return 'bg-warning text-dark';
+                    case 'low': return 'bg-success';
+                    default: return 'bg-secondary';
+                }
+            }
+            
+            // Load initial energy level if available
+            fetch('/energy')
+                .then(response => response.text())
+                .then(html => {
+                    // Try to extract energy level from response
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const initialEnergy = doc.querySelector('[data-initial-energy]');
+                    
+                    if (initialEnergy) {
+                        const energyLevel = initialEnergy.getAttribute('data-initial-energy');
+                        currentEnergy = parseInt(energyLevel) || 5;
+                        energySlider.value = currentEnergy;
+                        updateEnergyDisplay(currentEnergy);
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

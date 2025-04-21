@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Luna - Sign In</title>
-    <link rel="icon" href="/static/GPN-LogoNew.png">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -425,7 +425,7 @@
         <!-- Sign In Form -->
         <div class="signin-content">
             <div class="signin-image">
-                <img src="{{ url_for('static', filename= 'images/signin-image.jpg') }}" alt="sign in image">
+                <img src="{{ url_for('static', filename='images/signin-image.jpg') }}" alt="sign in image">
             </div>
 
             <div class="signin-form">
@@ -433,7 +433,7 @@
                 <div>
                     <label class="error_message"></label>
                 </div>
-                <form action="/signin" method="POST" class="register-form" id="login-form">
+                <form method="POST" class="register-form" id="login-form">
                     <div class="form-group">
                         <i class="fas fa-envelope"></i>
                         <input type="text" name="email" id="email" placeholder="Email" />
@@ -461,7 +461,7 @@
     </div>
 
     <!-- JS -->
-    <script src="{{ url_for('static', filename= 'vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     
     <script>
         // Create stars background
@@ -498,43 +498,47 @@
                 $(".error_message").show(0).delay(3000).hide(0);
             }
             else {
-                var data = new FormData();
-                data.append('email', $("#email").val());
-                data.append('pass', $("#pass").val());
-                $.ajax({
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    url: '/signin',
-                    processData: false,
-                    cache: false,
-                    timeout: 800000,
-                    contentType: false,
-                    data: data,
-                    success: function(response) {
-                        console.log("Response received:", response);
+                // Change from FormData to JSON
+                var data = {
+                    'email': $("#email").val(),
+                    'pass': $("#pass").val()
+            };
+        
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log("Response received:", response);
 
-                        try {
-                            var data = response; // already parsed when using jsonify
-                            console.log("Parsed JSON:", data);
+                    try {
+                        var data = response;
+                        console.log("Parsed JSON:", data);
 
-                            if (data['status'] == true) {
-                                $('#login_message').text("Welcome " + data['username'] + ", login successful!");
-                                $('#login_message').show();
-                                console.log("Redirecting to /home...");
-                                setTimeout(function() {
-                                    window.location.href = "/home";
-                                }, 3000);
-                            } else {
-                                $(".error_message").text("Incorrect email or password.");
-                                $(".error_message").show(0).delay(3000).hide(0);
-                            }
-                        } catch (err) {
-                            console.error("Error parsing response:", err);
-                            $(".error_message").text("An error occurred. Please try again.");
+                        if (data.status === true) {
+                            $('#login_message').text("Welcome " + data.username + ", login successful!");
+                            $('#login_message').show();
+                            console.log("Redirecting to /home...");
+                            setTimeout(function() {
+                                window.location.href = "/home";
+                            }, 3000);
+                        } else {
+                            $(".error_message").text("Incorrect email or password.");
                             $(".error_message").show(0).delay(3000).hide(0);
                         }
+                    } catch (err) {
+                        console.error("Error processing response:", err);
+                        $(".error_message").text("An error occurred. Please try again.");
+                        $(".error_message").show(0).delay(3000).hide(0);
                     }
-                });
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error:", error);
+                    $(".error_message").text("Server error. Please try again later.");
+                    $(".error_message").show(0).delay(3000).hide(0);
+                }
+            });
             }
         }
     </script>
